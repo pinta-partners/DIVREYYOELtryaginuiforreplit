@@ -1,0 +1,1208 @@
+{
+    "question_id": "2478a061-a065-46b0-9f10-c55a250e5d39",
+    "question": "our existence on this world is in the merit of the prayers of our forefathers",
+    "all_responses": [
+        {
+            "batch_index": 2,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Pesach 58",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 3,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Miketz 4",
+                    "score": 5
+                }
+            ]
+        },
+        {
+            "batch_index": 7,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Shemot 28",
+                    "score": 6
+                }
+            ]
+        },
+        {
+            "batch_index": 0,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shabbat 35",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 8,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vaera 7",
+                    "score": 4
+                }
+            ]
+        },
+        {
+            "batch_index": 10,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Sukkot 37",
+                    "score": 7
+                }
+            ]
+        },
+        {
+            "batch_index": 12,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Noach 12",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 13,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Shemot 1",
+                    "score": 6
+                }
+            ]
+        },
+        {
+            "batch_index": 14,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shavuot 23",
+                    "score": 4
+                }
+            ]
+        },
+        {
+            "batch_index": 18,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Lech Lecha 16",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 1,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shaar Keriat Shema 11",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 9,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Yom Kippur 12",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 4,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Pesach 56",
+                    "score": 5
+                }
+            ]
+        },
+        {
+            "batch_index": 11,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Beshalach 22",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 17,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Eikev 8",
+                    "score": 6
+                }
+            ]
+        },
+        {
+            "batch_index": 15,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Pesach 79",
+                    "score": 4
+                }
+            ]
+        },
+        {
+            "batch_index": 16,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vaetchanan 25",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 5,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shaar Keriat Shema 29",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 6,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shaar Keriat Shema 28",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 22,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Purim 86",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 23,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Beshalach 22",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 30,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Eikev 11",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 19,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Pesach 77",
+                    "score": 4
+                }
+            ]
+        },
+        {
+            "batch_index": 27,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayera 24",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 21,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Emor 4",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 33,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Chayei Sara 8",
+                    "score": 7
+                }
+            ]
+        },
+        {
+            "batch_index": 32,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayera 27",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 24,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Chanukah 8",
+                    "score": 6
+                }
+            ]
+        },
+        {
+            "batch_index": 29,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayeilech 4",
+                    "score": 6
+                }
+            ]
+        },
+        {
+            "batch_index": 25,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Pesach 77",
+                    "score": 4
+                }
+            ]
+        },
+        {
+            "batch_index": 26,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Re'eh 10",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 28,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayeshev 4",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 20,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Yitro 7",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 35,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Pesach 70",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 31,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Lech Lecha 16",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 41,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Pesach 42",
+                    "score": 6
+                }
+            ]
+        },
+        {
+            "batch_index": 40,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Tazria 5",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 34,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Ki Tavo 15",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 44,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Korach 3",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 48,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Noach 17",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 42,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Toldot 4",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 39,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shemini Atzeret 31",
+                    "score": 4
+                }
+            ]
+        },
+        {
+            "batch_index": 45,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Zot Chanukah 5",
+                    "score": 4
+                }
+            ]
+        },
+        {
+            "batch_index": 43,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shabbat HaGadol 14",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 46,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayikra 12",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 37,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Chukat 6",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 55,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Toldot 8",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 56,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Ki Teitzei 11",
+                    "score": 4
+                }
+            ]
+        },
+        {
+            "batch_index": 54,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayechi 14",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 50,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Sukkot 37",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 53,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Rosh Hashanah 39",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 52,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Ki Teitzei 14",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 47,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Hoshana Rabba 1",
+                    "score": 5
+                }
+            ]
+        },
+        {
+            "batch_index": 49,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Pekudei 2",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 57,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Toldot 1",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 59,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayera 19",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 58,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Beha'alotcha 1",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 64,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayetzei 2",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 60,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Balak 6",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 63,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Eikev 3",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 61,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayera 23",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 65,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayetzei 6",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 68,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Yitro 11",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 71,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Rosh Hashanah 5",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 62,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Toldot 17",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 67,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Ki Tisa 20",
+                    "score": 5
+                }
+            ]
+        },
+        {
+            "batch_index": 36,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Introduction 4",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 69,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayetzei 24",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 70,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Pesach 10",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 73,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shaar Tefillah 30",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 72,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayishlach 4",
+                    "score": 5
+                }
+            ]
+        },
+        {
+            "batch_index": 75,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Rosh Chodesh 5",
+                    "score": 6
+                }
+            ]
+        },
+        {
+            "batch_index": 74,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shabbat 10",
+                    "score": 1
+                }
+            ]
+        },
+        {
+            "batch_index": 66,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayera 28",
+                    "score": 5
+                }
+            ]
+        },
+        {
+            "batch_index": 76,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vaetchanan 27",
+                    "score": 6
+                }
+            ]
+        },
+        {
+            "batch_index": 78,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Toldot 22",
+                    "score": 5
+                }
+            ]
+        },
+        {
+            "batch_index": 77,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Yitro 11",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 82,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Purim 75",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 80,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayetzei 21",
+                    "score": 6
+                }
+            ]
+        },
+        {
+            "batch_index": 86,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shabbat 18",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 85,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Rosh Hashanah 48",
+                    "score": 6
+                }
+            ]
+        },
+        {
+            "batch_index": 81,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayechi 15",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 87,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Chayei Sara 5",
+                    "score": 4
+                }
+            ]
+        },
+        {
+            "batch_index": 88,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Toldot 6",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 79,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Bereshit 35",
+                    "score": 6
+                }
+            ]
+        },
+        {
+            "batch_index": 84,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Toldot 16",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 92,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Pinchas 6",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 94,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shavuot 7",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 90,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Re'eh 4",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 93,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Rosh Chodesh 10",
+                    "score": 7
+                }
+            ]
+        },
+        {
+            "batch_index": 96,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Shemot 5",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 89,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Chanukah 15",
+                    "score": 5
+                }
+            ]
+        },
+        {
+            "batch_index": 95,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Matot 13",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 91,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Yom Kippur 11",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 97,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shavuot 45",
+                    "score": 5
+                }
+            ]
+        },
+        {
+            "batch_index": 100,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Rosh Chodesh 10",
+                    "score": 7
+                }
+            ]
+        },
+        {
+            "batch_index": 104,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Toldot 15",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 103,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Chukat 4",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 98,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Chanukah 17",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 106,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Miketz 18",
+                    "score": 4
+                }
+            ]
+        },
+        {
+            "batch_index": 109,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Eikev 4",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 107,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Eikev 4",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 105,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shaar Tefillah 22",
+                    "score": 5
+                }
+            ]
+        },
+        {
+            "batch_index": 110,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Eikev 5",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 102,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Toldot 15",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 99,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Eikev 3",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 101,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayetzei 5",
+                    "score": 4
+                }
+            ]
+        },
+        {
+            "batch_index": 111,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Achrei Mot 8",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 113,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Toldot 5",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 108,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Eikev 5",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 112,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Toldot 2",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 115,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Bereshit 44",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 116,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Yom Kippur 9",
+                    "score": 4
+                }
+            ]
+        },
+        {
+            "batch_index": 114,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shabbat Chanukah 2",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 117,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Yom Kippur 13",
+                    "score": 5
+                }
+            ]
+        },
+        {
+            "batch_index": 119,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayera 29",
+                    "score": 4
+                }
+            ]
+        },
+        {
+            "batch_index": 121,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayetzei 4",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 120,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Purim 34",
+                    "score": 1
+                }
+            ]
+        },
+        {
+            "batch_index": 118,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shabbat HaGadol 35",
+                    "score": 4
+                }
+            ]
+        },
+        {
+            "batch_index": 122,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Toldot 7",
+                    "score": 6
+                }
+            ]
+        },
+        {
+            "batch_index": 124,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Ki Tavo 7",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 123,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayetzei 22",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "batch_index": 127,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Sukkot 17",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 126,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shemini Atzeret 38",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 129,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Pesach 59",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 128,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Lech Lecha 12",
+                    "score": 6
+                }
+            ]
+        },
+        {
+            "batch_index": 132,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayetzei 7",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 131,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Toldot 8",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 130,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Purim 63",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 125,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shaar Tefillah 23",
+                    "score": 9
+                }
+            ]
+        },
+        {
+            "batch_index": 38,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayera 31",
+                    "score": 8
+                }
+            ]
+        },
+        {
+            "batch_index": 51,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Torah, Vayeshev 4",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "batch_index": 83,
+            "response": [
+                {
+                    "reference": "Tiferet Shlomo, on Festivals, Shabbat 14",
+                    "score": 5
+                }
+            ]
+        }
+    ],
+    "timestamp": "2024-12-24T08:34:49.095148",
+    "metadata": {
+        "total_batches": 133,
+        "successful_batches": 133
+    }
+}

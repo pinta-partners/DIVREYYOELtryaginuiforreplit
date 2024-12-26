@@ -1,5 +1,5 @@
-entrypoint = "main.py"
-modules = ["python-3.11"]
+run = ["python3", "main.py", "web"]
+modules = ["python-3.11", "postgresql-16"]
 
 [nix]
 channel = "stable-24_05"
@@ -11,5 +11,9 @@ language = "python3"
 requiredFiles = [".replit", "replit.nix"]
 
 [deployment]
-run = ["python3", "main.py"]
 deploymentTarget = "cloudrun"
+run = ["sh", "-c", "python3 app.py"]
+
+[[ports]]
+localPort = 8080
+externalPort = 80
