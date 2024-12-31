@@ -145,7 +145,7 @@ def process_single_batch(client: OpenAI, batch: List[Dict], question: str,
         logger.info(f"[blue]Processing batch {batch_index + 1}[/blue]")
 
         system_message = (
-            # "You are a scholar and expert in the teachings of Tiferet Shlomo,"
+            # "You are a scholar and expert in the teachings of Divrey Yoel,"
             # "with deep understanding of rabbinic Hebrew and Hasidic texts."
             # "Your task is to analyze the Hebrew articles and rate each on a scale of 1-10"
             # "according to the following criteria:"
@@ -396,7 +396,7 @@ def process_single_batch(client: OpenAI, batch: List[Dict], question: str,
             "\n"
             "בונוס (מקסימום +1 נקודה):\n"
             "- +1 נקודה רק למאמרים יסודיים המהווים בסיס מהותי להבנת השאלה\n"
-            "או למאמרים המקשרים את השאלה לרעיונות יסוד בתורת התפארת שלמה\n"
+            "או למאמרים המקשרים את השאלה לרעיונות יסוד בתורת הדברי יואל\n"
             "\n"
             "מדריך ניקוד סופי - יש להקפיד מאוד:\n"
             "10: נדיר ביותר - רק למאמר שעונה על השאלה באופן מושלם ומקיף\n"
@@ -422,7 +422,7 @@ def process_single_batch(client: OpenAI, batch: List[Dict], question: str,
             passages_text += f"מקור: {reference}\nמאמר: {passage_text}\n\n"
 
         # User message with prominent question placement
-        user_message = f"""משימה: נתח את המאמר מהתפארת שלמה המובא להלן בהקשר של השאלה הבאה:
+        user_message = f"""משימה: נתח את המאמר מהדברי יואל המובא להלן בהקשר של השאלה הבאה:
 
 שאלה: {formatted_question}
 

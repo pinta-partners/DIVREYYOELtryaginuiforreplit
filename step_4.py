@@ -126,7 +126,7 @@ def extract_relevant_sentences(client: OpenAI, passage: Dict, question: str) -> 
 def generate_explanation(client: OpenAI, passage: Dict, relevant_sentences: str, question: str) -> str:
     """Generate explanation using passage and extracted sentences."""
     try:
-        system_message = """הנך נדרש לבאר בלשון רבנית מסורתית כיצד דברי התפארת שלמה עונים על השאלה שנשאלה.
+        system_message = """הנך נדרש לבאר בלשון רבנית מסורתית כיצד דברי הדברי יואל עונים על השאלה שנשאלה.
 
         יש להשיב בלשון רבנית בלבד (כמו בתשובות האחרונים), ולא בעברית מודרנית.
 
@@ -175,7 +175,7 @@ def process_passage(
         explanation = generate_explanation(client, passage, relevant_sentences, question)
 
         # Construct the source reference
-        source = f"Tiferet Shlomo, {passage['section']}, {passage['topic']} {passage['number']}"
+        source = f"Divrey Yoel, {passage['section']}, {passage['topic']} {passage['number']}"
 
         return {
             "source": source,
