@@ -149,7 +149,7 @@ def process_single_batch(client: OpenAI, batch: List[Dict], question: str,
             # "with deep understanding of rabbinic Hebrew and Hasidic texts."
             # "Your task is to analyze the Hebrew articles and rate each on a scale of 1-10"
             # "according to the following criteria:"
-            "אתה מלומד בקי ומומחה בתורת התפארת שלמה, "
+            "אתה מלומד בקי ומומחה בתורת הדברי יואל, "
             "עם הבנה עמוקה בעברית רבנית וטקסטים חסידיים. "
             "משימתך היא לנתח את המאמרים בעברית ולדרג כל אחד בסולם מ-1 עד 10 לפי הקריטריונים הבאים:"
             "\n\n"
@@ -249,7 +249,7 @@ def process_single_batch(client: OpenAI, batch: List[Dict], question: str,
             passage_text = passage.get('passage', '')
             passages_text += f"מקור: {reference}\nמאמר: {passage_text}\n\n"
 
-        user_message = f"""משימה: נתח את המאמר מהתפארת שלמה המובא להלן, ותן לו ציון בין 1 ל-10 על פי מידת הרלוונטיות והתובנות שהוא מספק לשאלה הנתונה. יש להיות קפדן מאוד במתן ציונים גבוהים.
+        user_message = f"""משימה: נתח את המאמר מהדברי יואל המובא להלן, ותן לו ציון בין 1 ל-10 על פי מידת הרלוונטיות והתובנות שהוא מספק לשאלה הנתונה. יש להיות קפדן מאוד במתן ציונים גבוהים.
 
 שאלה: {question}
 

@@ -212,7 +212,7 @@ def process_response_file_with_csv(input_json_path: Path, csv_file_path: Path, o
                     raise ValueError(f"Passage does not match the expected format: '{passage}'")
 
                 # Assign text-file pieces to variables
-                section = "Divrey Yoel"                                  # <-- CHANGED
+                section = "Torah"                                  # <-- CHANGED
                 topic = match.group("topic").strip()                    # <-- CHANGED
                 torah_number = match.group("torah_number").strip()      # <-- CHANGED
                 passage_number = match.group("passage_number").strip()  # <-- CHANGED
