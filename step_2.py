@@ -7,7 +7,7 @@ Contains utility functions and standard implementations.
 See LICENSE.md for terms of use.
 """
 
-#step_2.py
+# step_2.py
 
 import json
 import pandas as pd
@@ -52,17 +52,18 @@ def get_latest_question_id():
 
     return response_path.parent.parent.name
 
-def retry_search(section, topic, number, csv_data):
+def retry_search(section, topic, torah_number, passage_number, csv_data):  # <-- CHANGED
     """Enhanced retry search with multiple fallback strategies."""
     try:
         # Strategy 1: Exact match but case-insensitive
         matched_row = csv_data[
             (csv_data["section"].str.strip().str.lower() == section.lower()) &
             (csv_data["topic"].str.strip().str.lower() == topic.lower()) &
-            (csv_data["passage_number"].astype(str) == number)
+            (csv_data["torah_number"].astype(str) == torah_number) &            # <-- CHANGED
+            (csv_data["passage_number"].astype(str) == passage_number)          # <-- CHANGED
         ]
         if not matched_row.empty:
-            logger.info(f"[green]Strategy 1 (Exact match) successful for Section: '{section}', Topic: '{topic}', Number: '{number}'[/green]")
+            logger.info(f"[green]Strategy 1 (Exact match) successful for Section: '{section}', Topic: '{topic}', Torah #: '{torah_number}', Passage #: '{passage_number}'[/green]")
             return matched_row.iloc[0]
 
         # Strategy 2: Try matching with comma-separated section/topic
@@ -73,10 +74,11 @@ def retry_search(section, topic, number, csv_data):
                 matched_row = csv_data[
                     (csv_data["section"].str.strip().str.lower() == combined_section.lower()) &
                     (csv_data["topic"].str.strip().str.lower() == topic_part.strip().lower()) &
-                    (csv_data["passage_number"].astype(str) == number)
+                    (csv_data["torah_number"].astype(str) == torah_number) &        # <-- CHANGED
+                    (csv_data["passage_number"].astype(str) == passage_number)      # <-- CHANGED
                 ]
                 if not matched_row.empty:
-                    logger.info(f"[green]Strategy 2 (Comma-split) successful for Section: '{section}', Topic: '{topic}', Number: '{number}'[/green]")
+                    logger.info(f"[green]Strategy 2 (Comma-split) successful for Section: '{section}', Topic: '{topic}', Torah #: '{torah_number}', Passage #: '{passage_number}'[/green]")
                     return matched_row.iloc[0]
             except Exception as e:
                 logger.warning(f"[yellow]Strategy 2 failed with error: {e}[/yellow]")
@@ -84,32 +86,37 @@ def retry_search(section, topic, number, csv_data):
         # Strategy 3: Try matching with section as topic and vice versa
         try:
             matched_row = csv_data[
-                ((csv_data["section"].str.strip().str.lower() == topic.lower()) &
-                 (csv_data["topic"].str.strip().str.lower() == section.lower()) |
-                 (csv_data["section"].str.strip().str.lower().str.contains(section.lower(), na=False)) &
-                 (csv_data["topic"].str.strip().str.lower().str.contains(topic.lower(), na=False))) &
-                (csv_data["passage_number"].astype(str) == number)
+                (
+                    (csv_data["section"].str.strip().str.lower() == topic.lower()) &
+                    (csv_data["topic"].str.strip().str.lower() == section.lower())
+                    |
+                    (csv_data["section"].str.strip().str.lower().str.contains(section.lower(), na=False)) &
+                    (csv_data["topic"].str.strip().str.lower().str.contains(topic.lower(), na=False))
+                )
+                & (csv_data["torah_number"].astype(str) == torah_number)       # <-- CHANGED
+                & (csv_data["passage_number"].astype(str) == passage_number)   # <-- CHANGED
             ]
             if not matched_row.empty:
-                logger.info(f"[green]Strategy 3 (Cross-match) successful for Section: '{section}', Topic: '{topic}', Number: '{number}'[/green]")
+                logger.info(f"[green]Strategy 3 (Cross-match) successful for Section: '{section}', Topic: '{topic}', Torah #: '{torah_number}', Passage #: '{passage_number}'[/green]")
                 return matched_row.iloc[0]
         except Exception as e:
             logger.warning(f"[yellow]Strategy 3 failed with error: {e}[/yellow]")
 
-        # Strategy 4: Most careful fuzzy matching with strict number validation
+        # Strategy 4: Fuzzy matching with strict torah#/passage# validation
         try:
             # Extract key terms from section and topic
             search_terms = set((section + " " + topic).lower().replace(",", " ").split())
             potential_matches = []
 
             for _, row in csv_data.iterrows():
-                if str(row["passage_number"]) != number:  # Strict number matching
+                # Strict matching on torah_number and passage_number
+                if str(row["torah_number"]) != torah_number or str(row["passage_number"]) != passage_number:
                     continue
 
                 csv_text = (str(row["section"]) + " " + str(row["topic"])).lower()
                 # Count how many search terms are found in the CSV text
                 matches = sum(1 for term in search_terms if term in csv_text)
-                matching_ratio = matches / len(search_terms)
+                matching_ratio = matches / len(search_terms) if search_terms else 0
 
                 # Only consider it a match if we have a high confidence (75% or more terms match)
                 if matching_ratio >= 0.75:
@@ -118,17 +125,17 @@ def retry_search(section, topic, number, csv_data):
             # Sort by matching ratio and get the best match
             if potential_matches:
                 best_match = sorted(potential_matches, key=lambda x: x[0], reverse=True)[0]
-                logger.info(f"[green]Strategy 4 (Fuzzy) successful with {best_match[0]*100:.1f}% confidence for Section: '{section}', Topic: '{topic}', Number: '{number}'[/green]")
+                logger.info(f"[green]Strategy 4 (Fuzzy) successful with {best_match[0]*100:.1f}% confidence for Section: '{section}', Topic: '{topic}', Torah #: '{torah_number}', Passage #: '{passage_number}'[/green]")
                 return best_match[1]
 
         except Exception as e:
             logger.warning(f"[yellow]Strategy 4 failed with error: {e}[/yellow]")
 
-        logger.warning(f"[yellow]All retry strategies failed for Section: '{section}', Topic: '{topic}', Number: '{number}'.[/yellow]")
+        logger.warning(f"[yellow]All retry strategies failed for Section: '{section}', Topic: '{topic}', Torah #: '{torah_number}', Passage #: '{passage_number}'.[/yellow]")
         return None
 
     except Exception as e:
-        logger.error(f"[red]Retry failed for Section: '{section}', Topic: '{topic}', Number: '{number}'. Error: {e}[/red]")
+        logger.error(f"[red]Retry failed for Section: '{section}', Topic: '{topic}', Torah #: '{torah_number}', Passage #: '{passage_number}'. Error: {e}[/red]")
         return None
 
 def process_response_file_with_csv(input_json_path: Path, csv_file_path: Path, output_json_path: Path):
@@ -154,22 +161,29 @@ def process_response_file_with_csv(input_json_path: Path, csv_file_path: Path, o
         # Standardize column names for matching
         csv_data.rename(
             columns={
-                "Section": "section",
-                "Topic": "topic",
-                "torah #": "torah_number",
-                "Passage #": "passage_number",
-                "Passage": "passage",
-                "English Translation": "english_translation",
+                "section": "section",                     # <-- CHANGED (only if CSV has lowercase column headers)
+                "topic": "topic",                         # <-- CHANGED
+                "torah #": "torah_number",                # <-- CHANGED
+                "passage #": "passage_number",            # <-- CHANGED
+                "hebrew_text": "passage",                 # <-- CHANGED
+                "translation": "english_translation",      # <-- CHANGED
             },
             inplace=True,
         )
 
         # Preprocess CSV data
-        for col in ["section", "topic", "passage_number"]:
+        for col in ["section", "topic", "torah_number", "passage_number"]:  # <-- CHANGED
             csv_data[col] = csv_data[col].astype(str).str.strip()
 
         # Ensure required columns exist
-        required_columns = ["section", "topic", "passage_number", "passage", "english_translation"]
+        required_columns = [
+            "section",
+            "topic",
+            "torah_number",       # <-- CHANGED
+            "passage_number",     # <-- CHANGED
+            "passage",
+            "english_translation",
+        ]
         for col in required_columns:
             if col not in csv_data.columns:
                 raise ValueError(f"[ERROR] Missing required column '{col}' in the CSV file.")
@@ -178,8 +192,10 @@ def process_response_file_with_csv(input_json_path: Path, csv_file_path: Path, o
         matched_passages = []
         errors = []
 
-        # Updated Regex pattern to handle optional comma before number
-        pattern = re.compile(r"^Tiferet Shlomo,\s*on\s+(?P<section>[^,]+),\s*(?P<topic>[^,]+?)[,]?\s*(?P<number>\d+)$")
+        # Regex pattern for the new text file format
+        pattern = re.compile(
+            r"^Divrey Yoel,\s*Parshas\s+(?P<topic>[^,]+),\s*Torah\s*#(?P<torah_number>\d+),\s*Passage\s*#(?P<passage_number>\d+)$"
+        )  # <-- CHANGED
 
         for passage in passages:
             if not isinstance(passage, str):
@@ -195,23 +211,32 @@ def process_response_file_with_csv(input_json_path: Path, csv_file_path: Path, o
                 if not match:
                     raise ValueError(f"Passage does not match the expected format: '{passage}'")
 
-                section = match.group("section").strip()
-                topic = match.group("topic").strip()
-                number = match.group("number").strip()
+                # Assign text-file pieces to variables
+                section = "Divrey Yoel"                                  # <-- CHANGED
+                topic = match.group("topic").strip()                    # <-- CHANGED
+                torah_number = match.group("torah_number").strip()      # <-- CHANGED
+                passage_number = match.group("passage_number").strip()  # <-- CHANGED
 
-                logger.debug(f"[blue]Parsed Section: '{section}', Topic: '{topic}', Number: '{number}'[/blue]")
+                logger.debug(
+                    f"[blue]Parsed Section: '{section}', Topic: '{topic}', "
+                    f"Torah #: '{torah_number}', Passage #: '{passage_number}'[/blue]"
+                )
 
                 # Search in the CSV
                 matched_row = csv_data[
                     (csv_data["section"].str.strip().str.lower() == section.lower()) &
                     (csv_data["topic"].str.strip().str.lower() == topic.lower()) &
-                    (csv_data["passage_number"].astype(str) == number)
+                    (csv_data["torah_number"].astype(str) == torah_number) &        # <-- CHANGED
+                    (csv_data["passage_number"].astype(str) == passage_number)      # <-- CHANGED
                 ]
 
                 # Retry search if no match
                 if matched_row.empty:
-                    logger.warning(f"[yellow]No match found for Section: '{section}', Topic: '{topic}', Number: '{number}'. Retrying...[/yellow]")
-                    matched_row = retry_search(section, topic, number, csv_data)
+                    logger.warning(
+                        f"[yellow]No match found for Section: '{section}', "
+                        f"Topic: '{topic}', Torah #: '{torah_number}', Passage #: '{passage_number}'. Retrying...[/yellow]"
+                    )
+                    matched_row = retry_search(section, topic, torah_number, passage_number, csv_data)  # <-- CHANGED
 
                 if matched_row is not None and not matched_row.empty:
                     # Convert row to dictionary for JSON serialization
@@ -221,14 +246,18 @@ def process_response_file_with_csv(input_json_path: Path, csv_file_path: Path, o
                         "original": passage,
                         "section": matched_row.get("section", ""),
                         "topic": matched_row.get("topic", ""),
-                        "number": matched_row.get("passage_number", ""),
+                        "torah_number": matched_row.get("torah_number", ""),         # <-- CHANGED
+                        "passage_number": matched_row.get("passage_number", ""),     # <-- CHANGED
                         "passage": matched_row.get("passage", ""),
                         "english_translation": matched_row.get("english_translation", ""),
                     })
                 else:
                     errors.append({
                         "original": passage,
-                        "error": f"No match found for Section: '{section}', Topic: '{topic}', Number: '{number}'"
+                        "error": (
+                            f"No match found for Section: '{section}', Topic: '{topic}', "
+                            f"Torah #: '{torah_number}', Passage #: '{passage_number}'"
+                        )
                     })
 
             except Exception as e:
