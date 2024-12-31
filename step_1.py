@@ -200,7 +200,9 @@ def main(question=None):
 
         question_id = str(uuid.uuid4())
 
-        input_path = Path("guider/summary.txt")
+        
+        
+        = Path("guider/processed_output.txt")
         if not input_path.exists():
             raise FileNotFoundError("Input file not found.")
 
