@@ -44,7 +44,7 @@ def execute_with_timeout(func, timeout, *args, **kwargs):
 
 def main():
     # Get the question from the user first
-    console.print(Panel.fit("[puple]Tiferet Shlomo Analysis Pipeline[/puple]"))
+    console.print(Panel.fit("[puple]Divrey Yoel Analysis Pipeline[/puple]"))
     question = console.input("[bold green]Please enter your question: [/bold green]").strip()
 
     if not question:
