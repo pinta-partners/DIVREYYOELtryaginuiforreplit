@@ -213,7 +213,7 @@ def process_single_batch(client: OpenAI, batch: List[Dict], question: str,
             # "- +1 point only for foundational articles that form an essential basis for understanding the topic"
             # "or articles that connect the topic to fundamental ideas in Tiferet Shlomo's teachings"
             "- +1 נקודה רק למאמרים יסודיים המהווים בסיס מהותי להבנת הנושא\n"
-            "או למאמרים המקשרים את הנושא לרעיונות יסוד בתורת התפארת שלמה\n"
+            "או למאמרים המקשרים את הנושא לרעיונות יסוד בתורת הדברי יואל\n"
             "\n"
             # "Final Scoring Guide - Be Very Strict:"
             "מדריך ניקוד סופי - יש להקפיד מאוד:\n"
@@ -357,7 +357,7 @@ def process_single_batch(client: OpenAI, batch: List[Dict], question: str,
             raise ValueError("Question cannot be empty")
 
         system_message = (
-            "אתה מלומד בקי ומומחה בתורת התפארת שלמה, "
+            "אתה מלומד בקי ומומחה בתורת הדברי יואל, "
             "עם הבנה עמוקה בעברית רבנית וטקסטים חסידיים. "
             "\n\n"
             f"השאלה שעליה אנו מחפשים תשובה היא:\n{formatted_question}\n\n"  # Question prominently displayed
