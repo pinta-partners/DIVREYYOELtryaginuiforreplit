@@ -289,6 +289,9 @@ def process_single_batch(client: OpenAI, batch: List[Dict], question: str,
 
             response_content = completion.choices[0].message.content.strip()
 
+            print(f"RAW model response:\n{response_content}")
+
+            
             if not response_content:
                 raise ValueError("Empty response content")
 
@@ -307,7 +310,7 @@ def process_single_batch(client: OpenAI, batch: List[Dict], question: str,
                         raise ValueError(f"Invalid response format: {item}")
 
                 logger.info(
-                    f"[green]Successfully processed batch {batch_index + 1}[/green]"
+                    f"[green]Successfully processed batch {batch_index + 1}[/green] {passage_text}"
                 )
                 return {"batch_index": batch_index, "response": response_data}
 

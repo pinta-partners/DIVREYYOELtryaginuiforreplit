@@ -111,7 +111,7 @@ def index():
 </head>
 <body>
     <h1>Chasiddus AI</h1>
-    <h2>Search for any Dvar Torah in Chasidishe Seforim using AI. This version has access to the entire Tiferes Shlomo.</h2>
+    <h2>Search for any Dvar Torah in Chasidishe Seforim using AI. This version has access to the entire Divrey Yoel.</h2>
     <form id="query-form">
         <input type="text" id="question" name="question" placeholder="Enter your question..." required>
         <button type="submit">Search</button>
