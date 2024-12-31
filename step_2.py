@@ -156,6 +156,7 @@ def process_response_file_with_csv(input_json_path: Path, csv_file_path: Path, o
             columns={
                 "Section": "section",
                 "Topic": "topic",
+                "torah #": "torah_number",
                 "Passage #": "passage_number",
                 "Passage": "passage",
                 "English Translation": "english_translation",

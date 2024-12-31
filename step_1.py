@@ -103,17 +103,17 @@ def process_single_chunk(client, chunk, question, chunk_index) -> Dict:
     try:
         # Define the messages (prompt)
         system_message = (
-            "You are a highly knowledgeable scholar and expert in the teachings of the Tiferet Shlomo. "
+            "You are a highly knowledgeable scholar and expert in the teachings of the Divrey Yoel. "
             "Your task is to analyze the provided text to identify passages that best reflect the teachings or themes "
-            "of the Tiferet Shlomo in relation to the given question."
+            "of the Divrey Yoel in relation to the given question."
         )
-        user_message = f"""TASK: Identify a passage from the Tiferet Shlomo that provides meaningful insight into the following question:
+        user_message = f"""TASK: Identify a passage from the Divrey Yoel that provides meaningful insight into the following question:
 Question: {question}
-Text from the Tiferet Shlomo to analyze:
+Text from the Divrey Yoel to analyze:
 {chunk}
 """
         response_instructions = f"""RESPONSE INSTRUCTIONS:
-- Provide ONLY the passage reference in this format: "Tiferet Shlomo, [Section], [Number]".
+- Provide ONLY the passage reference in this format: "Divrey Yoel, [Section], [Number]".
 - If no passage aligns with the question, respond with "No relevant match found".
 """
 
