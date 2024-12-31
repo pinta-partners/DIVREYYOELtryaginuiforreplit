@@ -203,7 +203,7 @@ def main(question=None):
 
         
         
-        = Path("guider/processed_output.txt")
+        input_path = Path("guider/processed_output.txt")
         if not input_path.exists():
             raise FileNotFoundError("Input file not found.")
 
