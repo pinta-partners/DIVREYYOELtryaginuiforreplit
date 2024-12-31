@@ -310,7 +310,7 @@ def process_single_batch(client: OpenAI, batch: List[Dict], question: str,
                         raise ValueError(f"Invalid response format: {item}")
 
                 logger.info(
-                    f"[green]Successfully processed batch {batch_index + 1}[/green] {passage_text}"
+                    f"[green]Successfully processed batch {batch_index + 1}[/green]"
                 )
                 return {"batch_index": batch_index, "response": response_data}
 
