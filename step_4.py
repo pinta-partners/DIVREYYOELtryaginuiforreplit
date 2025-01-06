@@ -56,6 +56,7 @@ lock = Lock()
 # Processing settings
 MAX_WORKERS = 10  # Process 10 passages concurrently
 
+
 def get_latest_question_id() -> str:
     """Get the most recent question ID from the manifest file."""
     manifest_path = Path("data/manifest.json")
@@ -70,8 +71,8 @@ def get_latest_question_id() -> str:
 
     latest_entry = sorted(manifest, key=lambda x: x["timestamp"])[-1]
     response_path = Path(latest_entry["path"])
-
     return response_path.parent.parent.name
+
 
 def get_completion(client: OpenAI, system_message: str, user_message: str) -> str:
     """Get completion from OpenAI API with error handling."""
@@ -93,10 +94,11 @@ def get_completion(client: OpenAI, system_message: str, user_message: str) -> st
         logger.error(f"API error: {str(e)}")
         raise
 
+
 def extract_relevant_sentences(client: OpenAI, passage: Dict, question: str) -> str:
     """Extract relevant sentences from passage."""
     try:
-        system_message = """אתה מומחה בזיהוי טקסטים מדויקים מתוך כתבי התפארת שלמה.
+        system_message = """אתה מומחה בזיהוי טקסטים מדויקים מתוך כתבי הדברי יואל.
 משימתך היא רק אחת: להעתיק באופן מדויק משפטים מהטקסט שעונים באופן ישיר על השאלה.
 
 כללים:
@@ -123,24 +125,25 @@ def extract_relevant_sentences(client: OpenAI, passage: Dict, question: str) -> 
         logger.error(f"[red]Error extracting sentences: {str(e)}[/red]")
         return f"Error: {str(e)}"
 
+
 def generate_explanation(client: OpenAI, passage: Dict, relevant_sentences: str, question: str) -> str:
     """Generate explanation using passage and extracted sentences."""
     try:
         system_message = """הנך נדרש לבאר בלשון רבנית מסורתית כיצד דברי הדברי יואל עונים על השאלה שנשאלה.
 
-        יש להשיב בלשון רבנית בלבד (כמו בתשובות האחרונים), ולא בעברית מודרנית.
+יש להשיב בלשון רבנית בלבד (כמו בתשובות האחרונים), ולא בעברית מודרנית.
 
-        עליך לכתוב משפט אחד בלבד המתחיל ב"ביאור העניין הוא" המסביר כיצד הקטע והמשפטים המצוטטים עונים על השאלה.
+עליך לכתוב משפט אחד בלבד המתחיל ב"ביאור העניין הוא" המסביר כיצד הקטע והמשפטים המצוטטים עונים על השאלה.
 
-        דוגמא לסגנון הנדרש:
-        ביאור העניין הוא שבשעת התפילה, מחשבות זרות עלולות לחדור ללב המתפלל, וכך נראה כאילו פיו ולבו אינם שווים, אך באמת זוהי מלחמה רוחנית נגד כוחות המנסים לבלבל את כוונתו הטהורה.
+דוגמא לסגנון הנדרש:
+ביאור העניין הוא שבשעת התפילה, מחשבות זרות עלולות לחדור ללב המתפלל, וכך נראה כאילו פיו ולבו אינם שווים, אך באמת זוהי מלחמה רוחנית נגד כוחות המנסים לבלבל את כוונתו הטהורה.
 
-        הנחיות:
-        - הסבר כיצד הקטע עונה על השאלה
-        - השתמש בלשון רבנית מסורתית בלבד
-        - משפט אחד קצר ותמציתי
-        - התייחס למשפטים שצוטטו מהקטע
-        - פתח ב"ביאור העניין הוא\""""
+הנחיות:
+- הסבר כיצד הקטע עונה על השאלה
+- השתמש בלשון רבנית מסורתית בלבד
+- משפט אחד קצר ותמציתי
+- התייחס למשפטים שצוטטו מהקטע
+- פתח ב"ביאור העניין הוא\""""
 
         user_message = f"""שאלה: {question}
 
@@ -158,6 +161,7 @@ def generate_explanation(client: OpenAI, passage: Dict, relevant_sentences: str,
         logger.error(f"[red]Error generating explanation: {str(e)}[/red]")
         return f"Error: {str(e)}"
 
+
 def process_passage(
     client: OpenAI,
     passage: Dict,
@@ -168,61 +172,64 @@ def process_passage(
     try:
         logger.info(f"[blue]Processing passage {passage_index + 1}[/blue]")
 
+        # Build a 'source' string with torah_number / passage_number
+        # to avoid KeyError on 'number'
+        source = (
+            f"Divrey Yoel, {passage.get('section','?')}, {passage.get('topic','?')} "
+            f"(Torah #{passage.get('torah_number','?')}, Passage #{passage.get('passage_number','?')})"
+        )
+
         # First API call - extract relevant sentences
         relevant_sentences = extract_relevant_sentences(client, passage, question)
 
         # Second API call - generate explanation
         explanation = generate_explanation(client, passage, relevant_sentences, question)
 
-        # Construct the source reference
-        source = f"Divrey Yoel, {passage['section']}, {passage['topic']} {passage['number']}"
-
         return {
             "source": source,
             "relevant_sentences": relevant_sentences,
-            "passage": passage['passage'],
+            "passage": passage.get('passage',''),
             "explanation": explanation
         }
 
     except Exception as e:
         logger.error(f"[red]Error processing passage {passage_index + 1}: {str(e)}[/red]")
         return {
-            "source": f"Tiferet Shlomo, {passage['section']}, {passage['topic']} {passage['number']}",
+            "source": f"Divrey Yoel, {passage.get('section','?')}, {passage.get('topic','?')} "
+                      f"(Torah #{passage.get('torah_number','?')}, Passage #{passage.get('passage_number','?')})",
             "relevant_sentences": f"Error: {str(e)}",
-            "passage": passage['passage'],
+            "passage": passage.get('passage',''),
             "explanation": f"Error: {str(e)}"
         }
 
+
 def save_results(question: str, results: List[Dict], original_data: Dict) -> Path:
-    """Save the passages with their analyses in a sorted order based on previous scores."""
+    """Save the passages with their analyses in descending score order."""
     try:
-        # Create a score mapping from original data
+        # Instead of using (section, topic, number), we reference the final 'reference'
+        # from step_3 or the newly built 'source' in step_4
+        # so let's build a dictionary that maps reference -> average_score
         score_mapping = {
-            (p.get('section', ''), p.get('topic', ''), p.get('number', '')): float(p.get('average_score', 0))
+            p.get('reference', ''): float(p.get('average_score', 0))
             for p in original_data["selected_passages"]
         }
 
-        # Sort results using the score mapping
+        # Sort the results in descending order of the mapped score
+        # If we can't find a reference in score_mapping, default to 0
         sorted_results = sorted(
             results,
-            key=lambda x: score_mapping.get(
-                tuple(x['source'].split(', ')[1:]), 
-                0
-            ),
+            key=lambda x: score_mapping.get(x["source"], 0),
             reverse=True
         )
 
-        # Format the output data while maintaining the exact order
         output_data = {
             "question": question,
             "analyzed_passages": sorted_results
         }
 
-        # Create step_4 folder
         step_4_folder = Path("data/answers") / get_latest_question_id() / "step_4"
         step_4_folder.mkdir(parents=True, exist_ok=True)
 
-        # Save to JSON file
         output_file = step_4_folder / "passage_analysis.json"
         with lock:
             with output_file.open("w", encoding="utf-8") as f:
@@ -235,6 +242,7 @@ def save_results(question: str, results: List[Dict], original_data: Dict) -> Pat
         logger.error(f"[red]Error saving results: {str(e)}[/red]")
         raise
 
+
 def main(question_id=None):
     try:
         console.print(Panel.fit("[yellow]Step 4: Generating Passage Analysis[/yellow]"))
@@ -246,14 +254,13 @@ def main(question_id=None):
 
         client = OpenAI(api_key=api_key)
 
-        # Get latest question ID
-        question_id = get_latest_question_id()
+        # Get latest question ID if not provided
+        question_id = question_id or get_latest_question_id()
         logger.info(f"[cyan]Processing question ID: {question_id}[/cyan]")
 
         # Load results from step 3
         step_3_folder = Path("data/answers") / question_id / "step_3"
         final_selections_path = step_3_folder / "final_selections.json"
-
         if not final_selections_path.exists():
             raise FileNotFoundError(f"[red]Final selections not found at {final_selections_path}[/red]")
 
@@ -268,17 +275,14 @@ def main(question_id=None):
         if not selected_passages:
             raise ValueError("[red]No selected passages found in final selections[/red]")
 
-        # Process all passages with progress bar
+        # Process all passages
         all_results = []
         with Progress(
             SpinnerColumn(),
             TextColumn("[progress.description]{task.description}"),
             console=console
         ) as progress:
-            task = progress.add_task(
-                "[cyan]Processing passages...", 
-                total=len(selected_passages)
-            )
+            task = progress.add_task("[cyan]Processing passages...", total=len(selected_passages))
 
             with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
                 future_to_passage = {
@@ -310,8 +314,11 @@ def main(question_id=None):
 
     except Exception as e:
         logger.error(f"[red]An error occurred: {e}[/red]")
-        console.print(Panel.fit(f"[red]Error: {e}[/red]", title="Error Details", border_style="red"))
+        console.print(
+            Panel.fit(f"[red]Error: {e}[/red]", title="Error Details", border_style="red")
+        )
         exit(1)
+
 
 if __name__ == "__main__":
     main()
