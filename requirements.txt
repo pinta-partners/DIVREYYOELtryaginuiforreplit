@@ -6,3 +6,4 @@ python-dotenv>=1.0.0
 flask-cors
 flask
 anthropic
+litellm>=1.57.3
