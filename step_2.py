@@ -234,7 +234,7 @@ def process_response_file_with_csv(input_json_path: Path, csv_file_path: Path,
 
         # Regex pattern for the new text file format
         pattern = re.compile(
-            r"^Divrey Yoel,\s*Parshas\s+(?P<topic>[^,]+),\s*Torah\s*#(?P<torah_number>\d+),\s*Passage\s*#(?P<passage_number>\d+)$"
+            r"^Divrey Yoel,\s*(?:Parshas\s+)?(?P<topic>[^,]+),\s*Torah\s*#(?P<torah_number>\d+),\s*Passage\s*#(?P<passage_number>\d+)$"
         )  # <-- CHANGED
 
         for passage in passages:
