@@ -1,6 +1,7 @@
 import asyncio
 import csv
 import os
+import re
 import sys
 from typing import List, Dict
 from litellm import acompletion
@@ -60,7 +61,10 @@ class HebrewTextProcessor:
 
     async def process_passage(self, passage: Dict[str, str]) -> Dict[str, str]:
         """Enrich a single passage. Returns the updated passage dict."""
-        hebrew_text = passage['passage_content']
+        # Strip out any HTML tags
+        hebrew_text = re.sub(r'<[^>]*>', '', passage['passage_content'])
+        passage['passage_content'] = hebrew_text
+        
         print(
             f"Processing: {passage['book_name']} - {passage['parsha_name']} "
             f"- Torah #{passage['dvar_torah_id']} - Passage #{passage['passage_id']}"

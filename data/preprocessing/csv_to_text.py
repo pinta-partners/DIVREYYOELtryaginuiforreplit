@@ -2,11 +2,14 @@ import csv
 import sys
 """
 Usage:
-    python data/preprocessing/create_text_file.py <input_csv> <output_txt>
-    i.e. python data/preprocessing/create_text_file.py data/divrey_yoel_vayechi_enriched.csv guider/divrey_yoel_vayechi.txt
+    python data/preprocessing/csv_to_text.py data/dataset.csv guider/datas
+et.txt
 
 This script reads an enriched CSV (with columns:
- book_name,parsha_name,dvar_torah_id,passage_id,passage_content,translation,summary,keywords)
+    book_name,section,topic,torah #,passage #,hebrew_text,translation,summary,keywords
+ )
+
+
 and creates a single text file. For each row, it writes:
 
 ==================================================
@@ -47,13 +50,13 @@ def main():
             outfile.write(
                 "==================================================\n")
             outfile.write(
-                f"{row['book_name']}, {row['parsha_name']}, "
-                f"Torah #{row['dvar_torah_id']}, Passage #{row['passage_id']}\n\n"
+                f"{row['book_name']}, {row['topic']}, "
+                f"Torah #{row['torah #']}, Passage #{row['passage #']}\n\n"
             )
 
             # Original Hebrew
             outfile.write("Original Hebrew:\n")
-            outfile.write(f"{row['passage_content']}\n\n")
+            outfile.write(f"{row['hebrew_text']}\n\n")
 
             # Translation
             outfile.write("**Translation:**\n")

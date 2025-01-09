@@ -222,9 +222,13 @@ def save_final_results(question_id: str, question: str,
                 "reference": psg.get("reference", "")
             }
             cleaned_passages.append(cleaned_passage)
-        average_score = sum(
-            psg["average_score"]
-            for psg in cleaned_passages) / len(cleaned_passages)
+
+        if len(cleaned_passages) > 0:
+            average_score = sum(
+                psg["average_score"]
+                for psg in cleaned_passages) / len(cleaned_passages)
+        else:
+            average_score = 0
 
         final_output = {
             "question_id": question_id,
@@ -405,17 +409,17 @@ def main(question_id=None):
                     f"[yellow]No original data found for {ref}[/yellow]")
 
         # Save or error
-        if selected_passage_data:
-            output_file = save_final_results(question_id, question,
-                                             selected_passage_data,
-                                             all_responses)
-            console.print(
-                Panel.fit(
-                    f"[green]Done! Saved results to {output_file}[/green]"))
-        else:
-            raise ValueError(
-                f"[red]No passages were selected with average score >= {MINIMUM_SCORE_THRESHOLD}[/red]"
-            )
+        # if selected_passage_data:
+        output_file = save_final_results(question_id, question,
+                                         selected_passage_data, all_responses)
+        console.print(
+            Panel.fit(
+                f"[green]Done! Saved {len(selected_passage_data)} results to {output_file}[/green]"
+            ))
+        # else:
+        #     raise ValueError(
+        #         f"[red]No passages were selected with average score >= {MINIMUM_SCORE_THRESHOLD}[/red]"
+        #     )
 
     except Exception as e:
         logger.error(f"[red]An error occurred: {e}[/red]")
