@@ -213,6 +213,36 @@ def save_to_question_folder(question: str, raw_answers: List[Dict],
     return question_folder
 
 
+def load_and_chunk_all_files(folder_path: str, chunk_text_func,
+                             chunk_size: int) -> List[str]:
+    """
+    Loads all .txt files from the specified folder, chunks each file's content,
+    and returns a list of combined chunks.
+
+    :param folder_path: Path to the folder containing .txt files.
+    :param chunk_text_func: A function that takes text and chunk_size as parameters,
+                            and returns a list of chunks.
+    :param chunk_size: The size of each chunk.
+    :return: A list of all chunks from all files.
+    """
+    folder = Path(folder_path)
+    if not folder.exists() or not folder.is_dir():
+        raise FileNotFoundError(
+            f"Folder {folder} not found or is not a directory.")
+
+    all_chunks = []
+
+    for text_file in folder.glob("*.txt"):
+        with text_file.open("r", encoding="utf-8") as f:
+            content = f.read().strip()
+            if not content:
+                continue  # Skip empty files
+            chunks = chunk_text_func(content, chunk_size)
+            all_chunks.extend(chunks)
+
+    return all_chunks
+
+
 def main(question=None):
     try:
         # Load environment variables and initialize OpenAI client
@@ -233,17 +263,11 @@ def main(question=None):
 
         question_id = str(uuid.uuid4())
 
-        input_path = Path("guider/processed_output.txt")
-        if not input_path.exists():
-            raise FileNotFoundError("Input file not found.")
+        # Load all text files from the dataset folder guider/
 
-        with input_path.open("r", encoding="utf-8") as file:
-            user_input = file.read().strip()
-
-        if not user_input:
-            raise ValueError("Input file is empty.")
-
-        chunks = chunk_text(user_input, CHUNK_SIZE)
+        chunks = load_and_chunk_all_files(folder_path="guider/",
+                                          chunk_text_func=chunk_text,
+                                          chunk_size=CHUNK_SIZE)
 
         raw_answers = []
         with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
