@@ -140,10 +140,7 @@ def index():
 
             spinner.classList.add('hidden');
 
-            if (data.status === 'no_matches') {
-                resultContainer.innerHTML = '<div class="card"><p style="text-align: center; direction: ltr;">' + data.message + '</p></div>';
-            }
-            else if (data.analysis && data.analysis.analyzed_passages) {
+            if (data.analysis && data.analysis.analyzed_passages) {
                 data.analysis.analyzed_passages.forEach((passage, index) => {
                     const card = `
                         <div class="card">
@@ -219,12 +216,7 @@ def process():
     file_list = glob.glob(folder_path)
     latest_file = max(file_list, key=os.path.getctime) if file_list else None
 
-    if "No passages were selected with average score" in str(e) for r in results if "error" in r:
-        return jsonify({
-            "status": "no_matches",
-            "message": "No relevant passages were found for your question. Please try rephrasing your question."
-        })
-    elif latest_file and os.path.exists(latest_file):
+    if latest_file and os.path.exists(latest_file):
         with open(latest_file, 'r', encoding='utf-8') as file:
             analysis_data = json.load(file)
         return jsonify({
@@ -234,8 +226,9 @@ def process():
         })
     else:
         return jsonify({
-            "status": "error",
-            "message": "An unexpected error occurred. Please try again."
+            "status": "success",
+            "results": results,
+            "analysis": "No analysis file found."
         })
 
 
