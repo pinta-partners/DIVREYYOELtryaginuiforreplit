@@ -117,7 +117,7 @@ Question: {question}
 Text from the Divrey Yoel to analyze:
 {chunk}
 """
-        response_instructions = f"""RESPONSE INSTRUCTIONS:
+        response_instructions = """RESPONSE INSTRUCTIONS:
 - Provide ONLY the passage reference in this format: "Divrey Yoel, Parshas [Name], Torah #[X], Passage #[Y]".
 
 - If no passage aligns with the question, respond with "No relevant match found".
