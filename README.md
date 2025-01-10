@@ -8,6 +8,18 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+When running locally, add a `.env` file with the following keys (fill in the values):
+```
+DATABASE_URL=
+PGDATABASE=
+PGHOST=
+PGPORT=
+PGUSER=
+PGPASSWORD=
+ANTHROPIC_API_KEY=
+OPENAI_API_KEY=
+```
+
 
 # Data import pipeline
 
