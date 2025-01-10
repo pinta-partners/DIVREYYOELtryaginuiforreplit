@@ -46,7 +46,7 @@ console = Console()
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(message)s",
-    handlers=[RichHandler(rich_tracebacks=True, markup=True)]
+    handlers=[RichHandler(rich_tracebacks=True, markup=True)],
 )
 logger = logging.getLogger("step_4_script")
 
@@ -61,7 +61,9 @@ def get_latest_question_id() -> str:
     """Get the most recent question ID from the manifest file."""
     manifest_path = Path("data/manifest.json")
     if not manifest_path.exists():
-        raise FileNotFoundError("Manifest file not found. Please run previous steps first.")
+        raise FileNotFoundError(
+            "Manifest file not found. Please run previous steps first."
+        )
 
     with manifest_path.open("r", encoding="utf-8") as f:
         manifest = json.load(f)
@@ -81,13 +83,13 @@ def get_completion(client: OpenAI, system_message: str, user_message: str) -> st
             model="gpt-4o",
             messages=[
                 {"role": "system", "content": system_message},
-                {"role": "user", "content": user_message}
+                {"role": "user", "content": user_message},
             ],
             temperature=0.15,
             max_tokens=1500,
             presence_penalty=0,
             frequency_penalty=0,
-            stream=False
+            stream=False,
         )
         return completion.choices[0].message.content.strip()
     except Exception as e:
@@ -126,7 +128,9 @@ def extract_relevant_sentences(client: OpenAI, passage: Dict, question: str) -> 
         return f"Error: {str(e)}"
 
 
-def generate_explanation(client: OpenAI, passage: Dict, relevant_sentences: str, question: str) -> str:
+def generate_explanation(
+    client: OpenAI, passage: Dict, relevant_sentences: str, question: str
+) -> str:
     """Generate explanation using passage and extracted sentences."""
     try:
         system_message = """הנך נדרש לבאר בלשון רבנית מסורתית כיצד דברי הדברי יואל עונים על השאלה שנשאלה.
@@ -163,10 +167,7 @@ def generate_explanation(client: OpenAI, passage: Dict, relevant_sentences: str,
 
 
 def process_passage(
-    client: OpenAI,
-    passage: Dict,
-    question: str,
-    passage_index: int
+    client: OpenAI, book_name: str, passage: Dict, question: str, passage_index: int
 ) -> Dict:
     """Process a single passage with two API calls."""
     try:
@@ -175,7 +176,7 @@ def process_passage(
         # Build a 'source' string with torah_number / passage_number
         # to avoid KeyError on 'number'
         source = (
-            f"Divrey Yoel, {passage.get('section','?')}, {passage.get('topic','?')} "
+            f"{book_name}, {passage.get('section','?')}, {passage.get('topic','?')} "
             f"(Torah #{passage.get('torah_number','?')}, Passage #{passage.get('passage_number','?')})"
         )
 
@@ -183,23 +184,27 @@ def process_passage(
         relevant_sentences = extract_relevant_sentences(client, passage, question)
 
         # Second API call - generate explanation
-        explanation = generate_explanation(client, passage, relevant_sentences, question)
+        explanation = generate_explanation(
+            client, passage, relevant_sentences, question
+        )
 
         return {
             "source": source,
             "relevant_sentences": relevant_sentences,
-            "passage": passage.get('passage',''),
-            "explanation": explanation
+            "passage": passage.get("passage", ""),
+            "explanation": explanation,
         }
 
     except Exception as e:
-        logger.error(f"[red]Error processing passage {passage_index + 1}: {str(e)}[/red]")
+        logger.error(
+            f"[red]Error processing passage {passage_index + 1}: {str(e)}[/red]"
+        )
         return {
-            "source": f"Divrey Yoel, {passage.get('section','?')}, {passage.get('topic','?')} "
-                      f"(Torah #{passage.get('torah_number','?')}, Passage #{passage.get('passage_number','?')})",
+            "source": f"{book_name}, {passage.get('section','?')}, {passage.get('topic','?')} "
+            f"(Torah #{passage.get('torah_number','?')}, Passage #{passage.get('passage_number','?')})",
             "relevant_sentences": f"Error: {str(e)}",
-            "passage": passage.get('passage',''),
-            "explanation": f"Error: {str(e)}"
+            "passage": passage.get("passage", ""),
+            "explanation": f"Error: {str(e)}",
         }
 
 
@@ -210,22 +215,17 @@ def save_results(question: str, results: List[Dict], original_data: Dict) -> Pat
         # from step_3 or the newly built 'source' in step_4
         # so let's build a dictionary that maps reference -> average_score
         score_mapping = {
-            p.get('reference', ''): float(p.get('average_score', 0))
+            p.get("reference", ""): float(p.get("average_score", 0))
             for p in original_data["selected_passages"]
         }
 
         # Sort the results in descending order of the mapped score
         # If we can't find a reference in score_mapping, default to 0
         sorted_results = sorted(
-            results,
-            key=lambda x: score_mapping.get(x["source"], 0),
-            reverse=True
+            results, key=lambda x: score_mapping.get(x["source"], 0), reverse=True
         )
 
-        output_data = {
-            "question": question,
-            "analyzed_passages": sorted_results
-        }
+        output_data = {"question": question, "analyzed_passages": sorted_results}
 
         step_4_folder = Path("data/answers") / get_latest_question_id() / "step_4"
         step_4_folder.mkdir(parents=True, exist_ok=True)
@@ -250,7 +250,9 @@ def main(question_id=None):
         # Load environment variables and initialize OpenAI client
         api_key = os.getenv("OPENAI_API_KEY")
         if not api_key:
-            raise ValueError("[red]OPENAI_API_KEY not found in environment variables[/red]")
+            raise ValueError(
+                "[red]OPENAI_API_KEY not found in environment variables[/red]"
+            )
 
         client = OpenAI(api_key=api_key)
 
@@ -262,7 +264,9 @@ def main(question_id=None):
         step_3_folder = Path("data/answers") / question_id / "step_3"
         final_selections_path = step_3_folder / "final_selections.json"
         if not final_selections_path.exists():
-            raise FileNotFoundError(f"[red]Final selections not found at {final_selections_path}[/red]")
+            raise FileNotFoundError(
+                f"[red]Final selections not found at {final_selections_path}[/red]"
+            )
 
         with final_selections_path.open("r", encoding="utf-8") as f:
             data = json.load(f)
@@ -273,25 +277,25 @@ def main(question_id=None):
 
         selected_passages = data.get("selected_passages", [])
         if not selected_passages:
-            raise ValueError("[red]No selected passages found in final selections[/red]")
+            raise ValueError(
+                "[red]No selected passages found in final selections[/red]"
+            )
 
         # Process all passages
         all_results = []
         with Progress(
             SpinnerColumn(),
             TextColumn("[progress.description]{task.description}"),
-            console=console
+            console=console,
         ) as progress:
-            task = progress.add_task("[cyan]Processing passages...", total=len(selected_passages))
+            task = progress.add_task(
+                "[cyan]Processing passages...", total=len(selected_passages)
+            )
 
             with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
                 future_to_passage = {
                     executor.submit(
-                        process_passage, 
-                        client, 
-                        passage, 
-                        question, 
-                        idx
+                        process_passage, client, book_name, passage, question, idx
                     ): idx
                     for idx, passage in enumerate(selected_passages)
                 }
@@ -310,12 +314,18 @@ def main(question_id=None):
 
         # Save final results
         output_file = save_results(question, all_results, data)
-        console.print(Panel.fit(f"[green]Successfully processed and saved analysis to {output_file}[/green]"))
+        console.print(
+            Panel.fit(
+                f"[green]Successfully processed and saved analysis to {output_file}[/green]"
+            )
+        )
 
     except Exception as e:
         logger.error(f"[red]An error occurred: {e}[/red]")
         console.print(
-            Panel.fit(f"[red]Error: {e}[/red]", title="Error Details", border_style="red")
+            Panel.fit(
+                f"[red]Error: {e}[/red]", title="Error Details", border_style="red"
+            )
         )
         exit(1)
 

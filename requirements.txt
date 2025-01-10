@@ -7,3 +7,4 @@ flask-cors
 flask
 anthropic
 litellm>=1.57.3
+instructor>=1.7.2

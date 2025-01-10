@@ -20,6 +20,7 @@ from threading import Lock
 import uuid
 
 from litellm import completion as litellm_completion
+
 # from openai import OpenAI
 from rich.console import Console
 from rich.logging import RichHandler
@@ -33,9 +34,11 @@ install(show_locals=True)
 console = Console()
 
 # Configure logging with Rich handler
-logging.basicConfig(level=logging.DEBUG,
-                    format="%(message)s",
-                    handlers=[RichHandler(rich_tracebacks=True, markup=True)])
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(message)s",
+    handlers=[RichHandler(rich_tracebacks=True, markup=True)],
+)
 logger = logging.getLogger("step_1_script")
 
 # Global lock for thread-safe file writing
@@ -62,10 +65,9 @@ def log_json_path(json_path: Path):
 
     # Check for duplicate paths
     if str(json_path) not in [entry["path"] for entry in manifest]:
-        manifest.append({
-            "timestamp": datetime.now().isoformat(),
-            "path": str(json_path)
-        })
+        manifest.append(
+            {"timestamp": datetime.now().isoformat(), "path": str(json_path)}
+        )
 
     # Save the updated manifest
     with manifest_path.open("w", encoding="utf-8") as f:
@@ -73,12 +75,9 @@ def log_json_path(json_path: Path):
     logger.info(f"[green]Logged JSON path: {json_path}[/green]")
 
 
-def chunk_text(text: str,
-               max_tokens: int,
-               overlap_tokens: int = 1300) -> List[str]:
+def chunk_text(text: str, max_tokens: int, overlap_tokens: int = 1300) -> List[str]:
     """Chunk the text into parts with overlapping content."""
-    logger.info(
-        "[cyan]Chunking text into manageable parts with overlap...[/cyan]")
+    logger.info("[cyan]Chunking text into manageable parts with overlap...[/cyan]")
     words = text.split()
     chunks = []
     tokens_per_word = 1.33  # Approximate token count per word
@@ -92,13 +91,12 @@ def chunk_text(text: str,
 
         # Add overlap to the next chunk if not at the end of the text
         if end < len(words):
-            chunk += words[end - overlap_words:end]
+            chunk += words[end - overlap_words : end]
 
-        chunks.append(' '.join(chunk))
+        chunks.append(" ".join(chunk))
         start += max_words - overlap_words  # Move start to overlap
 
-    logger.info(
-        f"[green]Text split into {len(chunks)} chunks with overlap[/green]")
+    logger.info(f"[green]Text split into {len(chunks)} chunks with overlap[/green]")
     return chunks
 
 
@@ -109,33 +107,25 @@ def process_single_chunk(chunk, question, chunk_index) -> Dict:
     try:
         # Define the messages (prompt)
         system_message = (
-            "You are a highly knowledgeable scholar and expert in the teachings of the Divrey Yoel. "
+            "You are a highly knowledgeable scholar and expert in the teachings of the Chassidic literature. "
             "Your task is to analyze the provided text to identify passages that best reflect the teachings or themes "
-            "of the Divrey Yoel in relation to the given question.")
-        user_message = f"""TASK: Identify a passage from the Divrey Yoel that provides meaningful insight into the following question:
+            "of the book in relation to the given question."
+        )
+        user_message = f"""TASK: Identify a passage from the book that provides meaningful insight into the following question:
 Question: {question}
-Text from the Divrey Yoel to analyze:
+Text from the book to analyze:
 {chunk}
 """
-        response_instructions = f"""RESPONSE INSTRUCTIONS:
-- Provide ONLY the passage reference in this format: "Divrey Yoel, Parshas [Name], Torah #[X], Passage #[Y]".
+        response_instructions = """RESPONSE INSTRUCTIONS:
+- Provide ONLY the passage reference in this format: "[Book Name], Parshas [Name], Torah #[X], Passage #[Y]".
 
 - If no passage aligns with the question, respond with "No relevant match found".
 """
 
         messages = [
-            {
-                "role": "system",
-                "content": system_message
-            },
-            {
-                "role": "user",
-                "content": user_message
-            },
-            {
-                "role": "user",
-                "content": response_instructions
-            },
+            {"role": "system", "content": system_message},
+            {"role": "user", "content": user_message},
+            {"role": "user", "content": response_instructions},
         ]
 
         # AI model settings
@@ -155,7 +145,8 @@ Text from the Divrey Yoel to analyze:
             temperature=model_settings["temperature"],
             max_tokens=model_settings["max_tokens"],
             top_p=model_settings["top_p"],
-            stream=model_settings["stream"])
+            stream=model_settings["stream"],
+        )
         # completion = client.chat.completions.create(
         #     model=model_settings["model"],
         #     messages=messages,
@@ -170,8 +161,7 @@ Text from the Divrey Yoel to analyze:
         if not assistant_reply:
             raise ValueError("Empty response content from API")
 
-        logger.info(
-            f"[green]Received response for chunk {chunk_index}[/green]")
+        logger.info(f"[green]Received response for chunk {chunk_index}[/green]")
 
         return {
             "response": assistant_reply,
@@ -182,14 +172,14 @@ Text from the Divrey Yoel to analyze:
         return {"response": f"Error: {e}"}
 
 
-def save_to_question_folder(question: str, raw_answers: List[Dict],
-                            question_id: str):
+def save_to_question_folder(question: str, raw_answers: List[Dict], question_id: str):
     """Save the question and cleaned answers in a centralized folder."""
     cleaned_passages = []
     for answer in raw_answers:
         if "response" in answer and answer["response"]:
             cleaned_passages.extend(
-                [line for line in answer["response"].splitlines() if line])
+                [line for line in answer["response"].splitlines() if line]
+            )
 
     # Create step_1 folder within the question's primary folder
     question_folder = CENTRALIZED_FOLDER / question_id / "step_1"
@@ -198,9 +188,7 @@ def save_to_question_folder(question: str, raw_answers: List[Dict],
     data = {
         "question_id": question_id,
         "question": question,
-        "answer": {
-            "relevant_passages": cleaned_passages
-        },
+        "answer": {"relevant_passages": cleaned_passages},
         "timestamp": datetime.now().isoformat(),
     }
 
@@ -213,8 +201,9 @@ def save_to_question_folder(question: str, raw_answers: List[Dict],
     return question_folder
 
 
-def load_and_chunk_all_files(folder_path: str, chunk_text_func,
-                             chunk_size: int) -> List[str]:
+def load_and_chunk_all_files(
+    folder_path: str, chunk_text_func, chunk_size: int
+) -> List[str]:
     """
     Loads all .txt files from the specified folder, chunks each file's content,
     and returns a list of combined chunks.
@@ -227,8 +216,7 @@ def load_and_chunk_all_files(folder_path: str, chunk_text_func,
     """
     folder = Path(folder_path)
     if not folder.exists() or not folder.is_dir():
-        raise FileNotFoundError(
-            f"Folder {folder} not found or is not a directory.")
+        raise FileNotFoundError(f"Folder {folder} not found or is not a directory.")
 
     all_chunks = []
 
@@ -249,14 +237,14 @@ def main(question=None):
         # client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
         console.print(
-            Panel.fit(
-                "[yellow]GPT-4o-mini Chat Completion Script - Step 1[/yellow]")
+            Panel.fit("[yellow]GPT-4o-mini Chat Completion Script - Step 1[/yellow]")
         )
 
         # Only prompt for question if not provided
         if question is None:
             question = console.input(
-                "[bold cyan]Please enter your question: [/bold cyan]").strip()
+                "[bold cyan]Please enter your question: [/bold cyan]"
+            ).strip()
 
         if not question:
             raise ValueError("No question provided")
@@ -265,15 +253,14 @@ def main(question=None):
 
         # Load all text files from the dataset folder guider/
 
-        chunks = load_and_chunk_all_files(folder_path="guider/",
-                                          chunk_text_func=chunk_text,
-                                          chunk_size=CHUNK_SIZE)
+        chunks = load_and_chunk_all_files(
+            folder_path="guider/", chunk_text_func=chunk_text, chunk_size=CHUNK_SIZE
+        )
 
         raw_answers = []
         with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
             future_to_chunk = {
-                executor.submit(process_single_chunk, chunk, question, i + 1):
-                i
+                executor.submit(process_single_chunk, chunk, question, i + 1): i
                 for i, chunk in enumerate(chunks)
             }
             for future in as_completed(future_to_chunk):
@@ -287,9 +274,10 @@ def main(question=None):
     except Exception as e:
         logger.error(f"[red]An error occurred: {e}[/red]")
         console.print(
-            Panel.fit(f"[red]Error: {e}[/red]",
-                      title="Error Details",
-                      border_style="red"))
+            Panel.fit(
+                f"[red]Error: {e}[/red]", title="Error Details", border_style="red"
+            )
+        )
         raise  # Re-raise the exception to be caught by the main script
 
 
