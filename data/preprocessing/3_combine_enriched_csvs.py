@@ -1,9 +1,10 @@
 import os
 import sys
 import csv
+
 """
 Usage:
-    python data/preprocessing/combine_enriched_csvs.py data/enriched/ data/dataset.csv
+    python data/preprocessing/3_combine_enriched_csvs.py data/enriched/ data/dataset.csv
 
 This script merges all CSV files within <folder_path> into a single CSV file
 (<output_csv>, defaulting to 'dataset.csv' if not provided). It normalizes
@@ -21,8 +22,15 @@ Mappings:
 """
 
 FINAL_FIELDS = [
-    "book_name", "section", "topic", "torah #", "passage #", "hebrew_text",
-    "translation", "summary", "keywords"
+    "book_name",
+    "section",
+    "topic",
+    "torah #",
+    "passage #",
+    "hebrew_text",
+    "translation",
+    "summary",
+    "keywords",
 ]
 
 
@@ -42,9 +50,7 @@ def main():
         sys.exit(1)
 
     # Collect all CSV filenames
-    csv_files = [
-        f for f in os.listdir(folder_path) if f.lower().endswith('.csv')
-    ]
+    csv_files = [f for f in os.listdir(folder_path) if f.lower().endswith(".csv")]
     if not csv_files:
         print(f"No CSV files found in the folder '{folder_path}'.")
         sys.exit(0)
@@ -55,46 +61,46 @@ def main():
     # Process each CSV file
     for filename in csv_files:
         filepath = os.path.join(folder_path, filename)
-        with open(filepath, 'r', encoding='utf-8') as infile:
+        with open(filepath, "r", encoding="utf-8") as infile:
             reader = csv.DictReader(infile)
             for row in reader:
                 # Build a new row according to the FINAL_FIELDS
                 new_row = {}
 
                 # (1) book_name
-                book_name = row.get('book_name', '').strip()
+                book_name = row.get("book_name", "").strip()
                 if not book_name:
                     book_name = "Divrey Yoel"
 
                 # (2) section
-                section = row.get('section', '').strip()
+                section = row.get("section", "").strip()
                 if not section:
                     section = "Torah"
 
                 # (3) topic -> from 'topic' or fallback to 'parsha_name'
-                topic = row.get('topic', '').strip()
+                topic = row.get("topic", "").strip()
                 if not topic:
-                    topic = row.get('parsha_name', '').strip()
+                    topic = row.get("parsha_name", "").strip()
 
                 # (4) torah #
-                torah_number = row.get('torah #', '').strip()
+                torah_number = row.get("torah #", "").strip()
                 if not torah_number:
-                    torah_number = row.get('dvar_torah_id', '').strip()
+                    torah_number = row.get("dvar_torah_id", "").strip()
 
                 # (5) passage #
-                passage_number = row.get('passage #', '').strip()
+                passage_number = row.get("passage #", "").strip()
                 if not passage_number:
-                    passage_number = row.get('passage_id', '').strip()
+                    passage_number = row.get("passage_id", "").strip()
 
                 # (6) hebrew_text
-                hebrew_text = row.get('hebrew_text', '').strip()
+                hebrew_text = row.get("hebrew_text", "").strip()
                 if not hebrew_text:
-                    hebrew_text = row.get('passage_content', '').strip()
+                    hebrew_text = row.get("passage_content", "").strip()
 
                 # translation, summary, keywords
-                translation = row.get('translation', '').strip()
-                summary = row.get('summary', '').strip()
-                keywords = row.get('keywords', '').strip()
+                translation = row.get("translation", "").strip()
+                summary = row.get("summary", "").strip()
+                keywords = row.get("keywords", "").strip()
 
                 new_row["book_name"] = book_name
                 new_row["section"] = section
@@ -109,7 +115,7 @@ def main():
                 all_rows.append(new_row)
 
     # Write combined CSV
-    with open(output_csv, 'w', encoding='utf-8', newline='') as outfile:
+    with open(output_csv, "w", encoding="utf-8", newline="") as outfile:
         writer = csv.DictWriter(outfile, fieldnames=FINAL_FIELDS)
         writer.writeheader()
         writer.writerows(all_rows)

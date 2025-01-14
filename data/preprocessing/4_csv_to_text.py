@@ -1,9 +1,9 @@
 import csv
 import sys
+
 """
 Usage:
-    python data/preprocessing/csv_to_text.py data/dataset.csv guider/datas
-et.txt
+    python data/preprocessing/4_csv_to_text.py data/dataset.csv guider/dataset.txt
 
 This script reads an enriched CSV (with columns:
     book_name,section,topic,torah #,passage #,hebrew_text,translation,summary,keywords
@@ -40,15 +40,16 @@ def main():
     input_csv = sys.argv[1]
     output_txt = sys.argv[2]
 
-    with open(input_csv, 'r', encoding='utf-8') as infile, \
-         open(output_txt, 'w', encoding='utf-8') as outfile:
+    with (
+        open(input_csv, "r", encoding="utf-8") as infile,
+        open(output_txt, "w", encoding="utf-8") as outfile,
+    ):
 
         reader = csv.DictReader(infile)
 
         for row in reader:
             # Write a separator
-            outfile.write(
-                "==================================================\n")
+            outfile.write("==================================================\n")
             outfile.write(
                 f"{row['book_name']}, {row['topic']}, "
                 f"Torah #{row['torah #']}, Passage #{row['passage #']}\n\n"
@@ -69,7 +70,7 @@ def main():
             # Keywords
             outfile.write("**Keywords:**\n")
             # The keywords might be newline-separated; handle them accordingly
-            keywords_lines = row['keywords'].strip().split('\n')
+            keywords_lines = row["keywords"].strip().split("\n")
             for i, keyword in enumerate(keywords_lines, start=1):
                 outfile.write(f"{i}. {keyword.strip()}\n")
             outfile.write("\n")

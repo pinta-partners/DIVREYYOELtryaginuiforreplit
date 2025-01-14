@@ -7,7 +7,7 @@ from typing import List, Dict
 from litellm import acompletion
 
 # Example how to run:
-# python data/preprocessing/enrich_csv_with_translation_and_keywords.py data/divrey_yoel_vayechi.csv data/divrey_yoel_vayechi_enriched.csv 10
+# python data/preprocessing/2_enrich_csv_with_translation_and_keywords.py data/raw_input_csv/divrey_yoel_vayechi.csv data/enriched/divrey_yoel_vayechi_enriched.csv 10
 
 
 class HebrewTextProcessor:
@@ -18,13 +18,15 @@ class HebrewTextProcessor:
     async def call_litellm(self, prompt: str) -> str:
         """Make an asynchronous call to LiteLLM with a prompt."""
         try:
-            messages = [{"role": 'user', "content": prompt}]
-            model = 'gpt-4o-mini'  # "claude-3-5-sonnet-20241022",
-            response = await acompletion(model=model,
-                                         messages=messages,
-                                         max_tokens=1500,
-                                         temperature=0,
-                                         num_retries=3)
+            messages = [{"role": "user", "content": prompt}]
+            model = "gpt-4o-mini"  # "claude-3-5-sonnet-20241022",
+            response = await acompletion(
+                model=model,
+                messages=messages,
+                max_tokens=1500,
+                temperature=0,
+                num_retries=3,
+            )
             assistant_reply = response.choices[0].message.content.strip()
             return assistant_reply
         except Exception as e:
@@ -62,9 +64,9 @@ class HebrewTextProcessor:
     async def process_passage(self, passage: Dict[str, str]) -> Dict[str, str]:
         """Enrich a single passage. Returns the updated passage dict."""
         # Strip out any HTML tags
-        hebrew_text = re.sub(r'<[^>]*>', '', passage['passage_content'])
-        passage['passage_content'] = hebrew_text
-        
+        hebrew_text = re.sub(r"<[^>]*>", "", passage["passage_content"])
+        passage["passage_content"] = hebrew_text
+
         print(
             f"Processing: {passage['book_name']} - {passage['parsha_name']} "
             f"- Torah #{passage['dvar_torah_id']} - Passage #{passage['passage_id']}"
@@ -72,20 +74,18 @@ class HebrewTextProcessor:
 
         try:
             # Process asynchronously
-            translation_task = asyncio.create_task(
-                self.translate_text(hebrew_text))
-            summary_task = asyncio.create_task(
-                self.generate_summary(hebrew_text))
-            keywords_task = asyncio.create_task(
-                self.generate_keywords(hebrew_text))
+            translation_task = asyncio.create_task(self.translate_text(hebrew_text))
+            summary_task = asyncio.create_task(self.generate_summary(hebrew_text))
+            keywords_task = asyncio.create_task(self.generate_keywords(hebrew_text))
 
             translation, summary, keywords = await asyncio.gather(
-                translation_task, summary_task, keywords_task)
+                translation_task, summary_task, keywords_task
+            )
 
             # Enrich the passage
-            passage['translation'] = translation
-            passage['summary'] = summary
-            passage['keywords'] = keywords
+            passage["translation"] = translation
+            passage["summary"] = summary
+            passage["keywords"] = keywords
 
         except Exception as e:
             # On error, keep the fields unfilled
@@ -107,22 +107,22 @@ async def main():
 
     # 1. If output CSV doesn't exist, create it with extra fields
     if not os.path.exists(output_csv):
-        with open(input_csv, 'r', encoding='utf-8') as infile, \
-             open(output_csv, 'w', encoding='utf-8', newline='') as outfile:
+        with (
+            open(input_csv, "r", encoding="utf-8") as infile,
+            open(output_csv, "w", encoding="utf-8", newline="") as outfile,
+        ):
             reader = csv.DictReader(infile)
-            fieldnames = reader.fieldnames + [
-                "translation", "summary", "keywords"
-            ]
+            fieldnames = reader.fieldnames + ["translation", "summary", "keywords"]
             writer = csv.DictWriter(outfile, fieldnames=fieldnames)
             writer.writeheader()
             for row in reader:
-                row['translation'] = ""
-                row['summary'] = ""
-                row['keywords'] = ""
+                row["translation"] = ""
+                row["summary"] = ""
+                row["keywords"] = ""
                 writer.writerow(row)
 
     # 2. Read all lines from output CSV
-    with open(output_csv, 'r', encoding='utf-8') as infile:
+    with open(output_csv, "r", encoding="utf-8") as infile:
         reader = csv.DictReader(infile)
         fieldnames = reader.fieldnames
         passages = list(reader)
@@ -142,8 +142,11 @@ async def main():
         # Build a chunk up to max_concurrent lines that need processing
         while len(chunk_tasks) < max_concurrent and idx < total:
             row = passages[idx]
-            if (not row['translation']) or (not row['summary']) or (
-                    not row['keywords']):
+            if (
+                (not row["translation"])
+                or (not row["summary"])
+                or (not row["keywords"])
+            ):
                 # This row is missing at least one field
                 async def handle_row(r=row, i=idx):
                     async with semaphore:
@@ -166,7 +169,7 @@ async def main():
             passages[row_index] = updated_passage
 
         # Write the entire CSV to persist partial progress
-        with open(output_csv, 'w', encoding='utf-8', newline='') as outfile:
+        with open(output_csv, "w", encoding="utf-8", newline="") as outfile:
             writer = csv.DictWriter(outfile, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(passages)
