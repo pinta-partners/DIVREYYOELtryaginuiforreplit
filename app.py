@@ -57,25 +57,60 @@ def index():
         body { font-family: Arial, sans-serif; margin: 20px; }
         h1 { color: #333; text-align: center; font-size: 36px; margin-bottom: 10px; }
         h2 { color: #666; text-align: center; font-size: 18px; margin-bottom: 30px; }
-        form { margin-bottom: 20px; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .chat-form { 
+            margin-bottom: 20px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 15px; 
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+        .chat-input-container {
+            flex: 1;
+            display: flex;
+            background: #f0f4f9;
+            border-radius: 25px;
+            padding: 8px 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
         input[type="text"] {
-            padding: 10px;
-            width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        button {
-            padding: 10px 20px;
+            flex: 1;
+            padding: 12px;
             border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
+            background: transparent;
             font-size: 16px;
-            cursor: pointer;
+            outline: none;
         }
-        button:hover {
-            background-color: #45a049;
+        .chat-form button {
+            padding: 8px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: #2D7FF9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .chat-form button:hover {
+            color: #1b6eef;
+        }
+        .chat-form button svg {
+            width: 20px;
+            height: 20px;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .result-container { margin-top: 20px; }
         .card { background: #fff; border-radius: 10px; padding: 15px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
@@ -112,9 +147,19 @@ def index():
 <body>
     <h1>Chasiddus AI</h1>
     <h2>Search for any Dvar Torah in Chasidishe Seforim using AI. This version has access to the entire Divrey Yoel.</h2>
-    <form id="query-form">
-        <input type="text" id="question" name="question" placeholder="Enter your question..." required>
-        <button type="submit">Search</button>
+    <form id="query-form" class="chat-form">
+        <div class="chat-input-container">
+            <input type="text" id="question" name="question" placeholder="Type your question..." required>
+            <button type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+        <div class="avatar">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="AI Avatar" width="40" height="40">
+        </div>
     </form>
     <div id="loading-spinner" class="hidden">
         <div class="spinner"></div>
