@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup, NavigableString
 import argparse
 
 
+# Usage: python data/preprocessing/1_docx_to_csv.py -book_name="Divrey Yoel" --parsha_name="Ba" --input_docx_file="data/raw_docx/בא.docx"
 def main():
     parser = argparse.ArgumentParser(description="Convert HTML to CSV")
     parser.add_argument(

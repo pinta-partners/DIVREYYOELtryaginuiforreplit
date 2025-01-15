@@ -164,3 +164,4 @@ data/answers
 runs/
 runs.zip
 .DS_Store
+data/raw_pdf
