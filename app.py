@@ -123,7 +123,36 @@ def index():
         button:hover {
             background-color: #45a049;
         }
+        .result-container { margin-top: 20px; }
+        .card { background: #fff; border-radius: 10px; padding: 15px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .card p { direction: rtl; text-align: right; }
+        .card h3 { margin: 0; padding-bottom: 10px; border-bottom: 1px solid #ddd; direction: rtl; text-align: right; }
+        .expand-btn { color: blue; cursor: pointer; }
         .hidden { display: none; }
+        .spinner {
+            border: 4px solid #f3f3f3; /* צבע רקע */
+            border-top: 4px solid #4CAF50; /* צבע החלק המסתובב */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .card .full-text {
+            direction: rtl; /* כיוון הטקסט */
+            text-align: justify; /* יישור הטקסט */
+            line-height: 1.8; /* מרווח בין שורות */
+            margin: 10px 0; /* מרווח בין פסקאות */
+            padding: 10px; /* מרווח פנימי */
+            background-color: #f9f9f9; /* רקע בהיר */
+            border: 1px solid #ddd; /* מסגרת */
+            border-radius: 5px; /* פינות מעוגלות */
+            font-size: 16px; /* גודל הטקסט */
+        }
     </style>
 </head>
 <body>
@@ -169,8 +198,18 @@ def index():
             spinner.classList.add('hidden');
 
             if (data.analysis && data.analysis.analyzed_passages) {
-                data.analysis.analyzed_passages.forEach((passage) => {
-                    resultContainer.innerHTML += `<p>${passage.explanation}</p>`;
+                data.analysis.analyzed_passages.forEach((passage, index) => {
+                    const card = `
+                        <div class="card">
+                            <h3>${passage.source}</h3>
+                            <p><strong>סיכום:</strong> ${passage.explanation}</p>
+                            <p><span class="expand-btn" onclick="toggleExpand('passage-${index}')">View Full Passage</span></p>
+                            <div id="passage-${index}" class="hidden full-text">
+                                ${passage.passage}
+                            </div>
+                        </div>
+                    `;
+                    resultContainer.innerHTML += card;
                 });
             } else {
                 resultContainer.innerHTML = '<p>No analysis available.</p>';
