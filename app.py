@@ -246,8 +246,14 @@ def index():
         e.preventDefault();
         resultContainer.innerHTML = "";
         spinner.classList.remove("hidden"); // הצגת הספינר
+        
+        // Disable textarea and hide send button
+        const textarea = document.getElementById("question");
+        const sendButton = form.querySelector("button");
+        textarea.disabled = true;
+        sendButton.style.display = "none";
 
-        const question = document.getElementById("question").value;
+        const question = textarea.value;
         const response = await fetch("/process", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
