@@ -148,6 +148,9 @@ def index():
     <h1>Chasiddus AI</h1>
     <h2>Search for any Dvar Torah in Chasidishe Seforim using AI. This version has access to the entire Divrey Yoel.</h2>
     <form id="query-form" class="chat-form">
+    <div class="avatar">
+        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="AI Avatar" width="40" height="40">
+    </div>
         <div class="chat-input-container">
             <input type="text" id="question" name="question" placeholder="Type your question..." required>
             <button type="submit">
@@ -156,9 +159,6 @@ def index():
                     <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                 </svg>
             </button>
-        </div>
-        <div class="avatar">
-            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="AI Avatar" width="40" height="40">
         </div>
     </form>
     <div id="loading-spinner" class="hidden">
