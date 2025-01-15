@@ -47,167 +47,298 @@ def execute_with_timeout(func, timeout, *args, **kwargs):
 @app.route('/')
 def index():
     return '''
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chasiddus AI</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { color: #333; text-align: center; font-size: 36px; margin-bottom: 10px; }
-        h2 { color: #666; text-align: center; font-size: 18px; margin-bottom: 30px; }
-        .chat-form { 
-            margin-bottom: 20px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 15px; 
-            max-width: 800px;
-            margin: 0 auto 20px;
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h1 {
+        color: #333;
+        text-align: center;
+        font-size: 36px;
+        margin-bottom: 10px;
+      }
+      h2 {
+        color: #666;
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 30px;
+      }
+
+      /* ========== Chat Form (User Input) ========== */
+      .chat-form {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        width: 90vw;
+      }
+      .chat-input-container {
+        flex: 1;
+        display: flex;
+        background: #f0f4f9;
+        border-radius: 25px;
+        padding: 8px 15px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+      textarea {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        background: transparent;
+        font-size: 16px;
+        outline: none;
+        resize: none;
+        overflow: hidden;
+      }
+      .chat-form button {
+        padding: 8px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        color: #2d7ff9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .chat-form button:hover {
+        color: #1b6eef;
+      }
+      .chat-form button svg {
+        width: 20px;
+        height: 20px;
+      }
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+      .avatar svg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* ========== Chat Display ========== */
+      .result-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .ai-card {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 8px;
+      }
+
+      .ai-card:not(:first-child) {
+        padding-right: 60px;
+      }
+      .ai-bubble {
+        position: relative;
+        background: #fff;
+        border-radius: 10px;
+        padding: 10px 15px;
+        width: 70vw;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .ai-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        margin-left: 10px;
+        padding: 5px;
+      }
+      .ai-avatar svg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* ========== Typing Indicator (3 dots) ========== */
+      .typing-indicator {
+        display: inline-flex;
+        justify-content: space-between;
+        width: 24px;
+      }
+      .typing-indicator span {
+        width: 6px;
+        height: 6px;
+        background-color: #666;
+        border-radius: 50%;
+        margin-right: 3px;
+        animation: bounce 1s infinite;
+      }
+      .typing-indicator span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .typing-indicator span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      @keyframes bounce {
+        0%,
+        80%,
+        100% {
+          transform: scale(0);
         }
-        .chat-input-container {
-            flex: 1;
-            display: flex;
-            background: #f0f4f9;
-            border-radius: 25px;
-            padding: 8px 15px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        40% {
+          transform: scale(1);
         }
-        input[type="text"] {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            background: transparent;
-            font-size: 16px;
-            outline: none;
-        }
-        .chat-form button {
-            padding: 8px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            color: #2D7FF9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .chat-form button:hover {
-            color: #1b6eef;
-        }
-        .chat-form button svg {
-            width: 20px;
-            height: 20px;
-        }
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            overflow: hidden;
-            background: #fff;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .result-container { margin-top: 20px; }
-        .card { background: #fff; border-radius: 10px; padding: 15px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
-        .card p { direction: rtl; text-align: right; }
-        .card h3 { margin: 0; padding-bottom: 10px; border-bottom: 1px solid #ddd; direction: rtl; text-align: right; }
-        .expand-btn { color: blue; cursor: pointer; }
-        .hidden { display: none; }
-        .spinner {
-            border: 4px solid #f3f3f3; /* צבע רקע */
-            border-top: 4px solid #4CAF50; /* צבע החלק המסתובב */
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: auto;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .card .full-text {
-            direction: rtl; /* כיוון הטקסט */
-            text-align: justify; /* יישור הטקסט */
-            line-height: 1.8; /* מרווח בין שורות */
-            margin: 10px 0; /* מרווח בין פסקאות */
-            padding: 10px; /* מרווח פנימי */
-            background-color: #f9f9f9; /* רקע בהיר */
-            border: 1px solid #ddd; /* מסגרת */
-            border-radius: 5px; /* פינות מעוגלות */
-            font-size: 16px; /* גודל הטקסט */
-        }
+      }
+
+      .source {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 5px;
+      }
+
+      .hebrew {
+        direction: rtl;
+        font-size: 16px;
+      }
+
+      /* ========== "Expand" styles ========== */
+      .expand-btn {
+        color: blue;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .hidden {
+        display: none;
+      }
+      .full-text {
+        direction: rtl;
+        text-align: justify;
+        line-height: 1.8;
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+      }
     </style>
 </head>
 <body>
     <h1>Chasiddus AI</h1>
     <h2>Search for any Dvar Torah in Chasidishe Seforim using AI. This version has access to the entire Divrey Yoel.</h2>
+
     <form id="query-form" class="chat-form">
-    <div class="avatar">
-        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="AI Avatar" width="40" height="40">
-    </div>
-        <div class="chat-input-container">
-            <input type="text" id="question" name="question" placeholder="Type your question..." required>
-            <button type="submit">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                </svg>
-            </button>
-        </div>
+      <div class="avatar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user">
+          <circle cx="12" cy="12" r="10" />
+          <circle cx="12" cy="10" r="3" />
+          <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
+        </svg>
+      </div>
+      <div class="chat-input-container">
+        <textarea id="question" name="question" placeholder="Type your question..." required rows="1"></textarea>
+        <button type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
     </form>
-    <div id="loading-spinner" class="hidden">
-        <div class="spinner"></div>
-    </div>
+
     <div id="result-container" class="result-container"></div>
+
     <script>
-        const form = document.querySelector('#query-form');
-        const spinner = document.getElementById('loading-spinner');
-        const resultContainer = document.getElementById('result-container');
+      const form = document.querySelector("#query-form");
+      const resultContainer = document.getElementById("result-container");
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            resultContainer.innerHTML = '';
-            spinner.classList.remove('hidden'); // הצגת הספינר
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-            const question = document.getElementById('question').value;
-            const response = await fetch('/process', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `question=${encodeURIComponent(question)}`
-            });
-            const data = await response.json();
+        const textarea = document.getElementById("question");
+        const sendButton = form.querySelector("button");
 
-            spinner.classList.add('hidden');
+        textarea.disabled = true;
+        textarea.style.cursor = "not-allowed";
+        sendButton.style.display = "none";
 
-            if (data.analysis && data.analysis.analyzed_passages) {
-                data.analysis.analyzed_passages.forEach((passage, index) => {
-                    const card = `
-                        <div class="card">
-                            <h3>${passage.source}</h3>
-                            <p><strong>סיכום:</strong> ${passage.explanation}</p>
-                            <p><span class="expand-btn" onclick="toggleExpand('passage-${index}')">View Full Passage</span></p>
-                            <div id="passage-${index}" class="hidden full-text">
-                                ${passage.passage}
-                            </div>
-                        </div>
-                    `;
-                    resultContainer.innerHTML += card;
-                });
-            } else {
-                resultContainer.innerHTML = '<p>No analysis available.</p>';
-            }
+        const question = textarea.value;
+
+        const aiCard = document.createElement("div");
+        aiCard.className = "ai-card";
+        aiCard.style.marginBottom = "8px";
+
+        aiCard.innerHTML = `
+          <div class="ai-bubble" id="aiBubble">
+            <div class="typing-indicator" id="typingIndicator">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="ai-avatar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+          </div>
+        `;
+        resultContainer.appendChild(aiCard);
+
+        const response = await fetch("/process", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `question=${encodeURIComponent(question)}`,
         });
+        const data = await response.json();
 
-        function toggleExpand(id) {
-            const element = document.getElementById(id);
-            element.classList.toggle('hidden');
+        const aiBubble = document.getElementById("aiBubble");
+        const typingIndicator = document.getElementById("typingIndicator");
+
+        if (typingIndicator) {
+          typingIndicator.remove();
         }
+
+        if (data.analysis && data.analysis.analyzed_passages) {
+          data.analysis.analyzed_passages.forEach((passage, index) => {
+            if (index === 0) {
+              aiBubble.innerHTML = `
+                <p class="source">${passage.source}</p>
+                <p class="hebrew"><strong>סיכום:</strong> ${passage.explanation}</p>
+                <span class="expand-btn" onclick="toggleExpand('passage-${index}')">View Full Passage</span>
+                <div id="passage-${index}" class="hidden full-text">${passage.passage}</div>
+              `;
+            } else {
+              const additionalCard = document.createElement("div");
+              additionalCard.className = "ai-card";
+              additionalCard.style.marginBottom = "8px";
+              additionalCard.innerHTML = `
+                <div class="ai-bubble">
+                  <p class="source">${passage.source}</p>
+                  <p class="hebrew"><strong>סיכום:</strong> ${passage.explanation}</p>
+                  <span class="expand-btn" onclick="toggleExpand('passage-${index}')">View Full Passage</span>
+                  <div id="passage-${index}" class="hidden full-text">${passage.passage}</div>
+                </div>
+              `;
+              resultContainer.appendChild(additionalCard);
+            }
+          });
+        } else {
+          aiBubble.innerHTML = "<p>No analysis available.</p>";
+        }
+      });
+
+      function toggleExpand(id) {
+        const element = document.getElementById(id);
+        element.classList.toggle("hidden");
+        const expandBtn = element.previousElementSibling;
+        expandBtn.style.display = "none";
+      }
     </script>
 </body>
 </html>
