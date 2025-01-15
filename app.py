@@ -144,14 +144,16 @@ def index():
       .ai-card:not(:first-child) {
         padding-right: 60px;
       }
-      .ai-bubble {
-        position: relative;
-        background: #fff;
-        border-radius: 10px;
-        padding: 10px 15px;
-        width: 70vw;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      }
+   .ai-bubble {
+  position: relative;
+  background: #fff; /* AI bubble is white */
+  border-radius: 10px;
+  padding: 10px 15px;
+  width: 70vw;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: right; /* Ensure content within aligns right */
+}
+
 
       .ai-avatar {
         width: 40px;
@@ -170,12 +172,13 @@ def index():
       }
 
       /* ========== Typing Indicator (3 dots) ========== */
-      .typing-indicator {
-        display: inline-flex;
-        justify-content: space-between;
-        width: 24px;
-        margin-left: auto;
-      }
+     /* Adjust Typing Indicator to the right */
+.typing-indicator {
+  display: inline-flex;
+  justify-content: flex-end; /* Align dots to the right */
+  width: 24px;
+  margin-left: auto; /* Push indicator to the right */
+}
       .typing-indicator span {
         width: 6px;
         height: 6px;
