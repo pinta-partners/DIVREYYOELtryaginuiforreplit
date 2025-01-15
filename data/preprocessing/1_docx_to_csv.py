@@ -11,24 +11,27 @@ def extract_passages(doc):
     in_bold = False
 
     for paragraph in doc.paragraphs:
-        if "*" in paragraph.text:
+        has_asterisk = "*" in paragraph.text
+        if not has_asterisk:  # Skip processing asterisk paragraphs
+            for run in paragraph.runs:
+                text = run.text.strip()
+                if not text:
+                    continue
+
+                if run.bold and not in_bold:
+                    # New passage starts
+                    if current_passage:
+                        passages.append((current_dvar_torah, "".join(current_passage)))
+                    current_passage = [text]
+                    in_bold = True
+                elif not run.bold:
+                    current_passage.append(text)
+                    in_bold = False
+
+        if has_asterisk and current_passage:  # End current dvar torah
+            passages.append((current_dvar_torah, "".join(current_passage)))
+            current_passage = []
             current_dvar_torah += 1
-            continue
-
-        for run in paragraph.runs:
-            text = run.text.strip()
-            if not text:
-                continue
-
-            if run.bold and not in_bold:
-                # New passage starts
-                if current_passage:
-                    passages.append((current_dvar_torah, "".join(current_passage)))
-                current_passage = [text]
-                in_bold = True
-            elif not run.bold:
-                current_passage.append(text)
-                in_bold = False
 
     # Add last passage
     if current_passage:
