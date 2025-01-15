@@ -174,6 +174,7 @@ def index():
         display: inline-flex;
         justify-content: space-between;
         width: 24px;
+        margin-left: auto;
       }
       .typing-indicator span {
         width: 6px;
