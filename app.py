@@ -65,28 +65,27 @@ def index():
             gap: 15px;
             max-width: 800px;
             margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         .chat-input-container {
             flex: 1;
             position: relative;
+            order: 1;
         }
         input[type="text"] {
             width: 100%;
             padding: 15px;
             padding-right: 60px;
-            border: 1px solid #e0e3e9;
+            border: 1px solid #ddd;
             border-radius: 25px;
             font-size: 16px;
-            background: #f8f9fd;
+            background: white;
             outline: none;
+        }
+        .avatar {
+            order: 2;
         }
         input[type="text"]:focus {
             border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
         }
         button {
             width: 45px;
