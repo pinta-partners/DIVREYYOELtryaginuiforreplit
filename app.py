@@ -65,7 +65,7 @@ def index():
             gap: 15px;
             max-width: 800px;
             margin: 0 auto;
-            background: white;
+            background: #e6f3ff;
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -73,15 +73,16 @@ def index():
         .chat-input-container {
             flex: 1;
             position: relative;
+            order: 1;
         }
         input[type="text"] {
             width: 100%;
             padding: 15px;
             padding-right: 60px;
-            border: 1px solid #e0e3e9;
+            border: 1px solid #cce4ff;
             border-radius: 25px;
             font-size: 16px;
-            background: #f8f9fd;
+            background: white;
             outline: none;
         }
         input[type="text"]:focus {
@@ -110,15 +111,16 @@ def index():
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: #e5e7eb;
+            background-color: #cce4ff;
             display: flex;
             align-items: center;
             justify-content: center;
+            order: 2;
         }
         .avatar svg {
             width: 24px;
             height: 24px;
-            color: #6b7280;
+            color: #3b82f6;
         }
         button:hover {
             background-color: #45a049;
