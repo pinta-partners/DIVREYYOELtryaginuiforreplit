@@ -6,6 +6,9 @@ import re
 import json
 import os
 
+# NOTE: This script is not currently used in the pipeline.
+# NOTE: This script is not yet functional.
+
 # Set Tesseract configuration for Hebrew
 pytesseract.pytesseract.tesseract_cmd = (
     # r"/usr/local/bin/tesseract"  # Update with your tesseract path
