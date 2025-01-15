@@ -65,7 +65,7 @@ def index():
             gap: 15px;
             max-width: 800px;
             margin: 0 auto;
-            background: #e6f3ff;
+            background: white;
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -73,20 +73,16 @@ def index():
         .chat-input-container {
             flex: 1;
             position: relative;
-            order: 1;
         }
         input[type="text"] {
             width: 100%;
             padding: 15px;
             padding-right: 60px;
-            border: 1px solid #b3d9ff;
+            border: 1px solid #e0e3e9;
             border-radius: 25px;
             font-size: 16px;
-            background: white;
+            background: #f8f9fd;
             outline: none;
-        }
-        .avatar {
-            order: 2;
         }
         input[type="text"]:focus {
             border-color: #3b82f6;
