@@ -142,6 +142,20 @@ def index():
             border-radius: 5px; /* פינות מעוגלות */
             font-size: 16px; /* גודל הטקסט */
         }
+        textarea {
+            flex: 1;
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            outline: none;
+            font-family: inherit;
+            margin: 0;
+            resize: vertical;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
