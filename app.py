@@ -54,25 +54,71 @@ def index():
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chasiddus AI</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f7fb; }
         h1 { color: #333; text-align: center; font-size: 36px; margin-bottom: 10px; }
         h2 { color: #666; text-align: center; font-size: 18px; margin-bottom: 30px; }
-        form { margin-bottom: 20px; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        form { 
+            margin-bottom: 20px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .chat-input-container {
+            flex: 1;
+            position: relative;
+        }
         input[type="text"] {
-            padding: 10px;
-            width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            width: 100%;
+            padding: 15px;
+            padding-right: 60px;
+            border: 1px solid #e0e3e9;
+            border-radius: 25px;
             font-size: 16px;
+            background: #f8f9fd;
+            outline: none;
+        }
+        input[type="text"]:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
         }
         button {
-            padding: 10px 20px;
+            width: 45px;
+            height: 45px;
             border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
+            border-radius: 50%;
+            background-color: #3b82f6;
             color: white;
-            font-size: 16px;
+            font-size: 20px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #2563eb;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .avatar svg {
+            width: 24px;
+            height: 24px;
+            color: #6b7280;
         }
         button:hover {
             background-color: #45a049;
@@ -113,8 +159,19 @@ def index():
     <h1>Chasiddus AI</h1>
     <h2>Search for any Dvar Torah in Chasidishe Seforim using AI. This version has access to the entire Divrey Yoel.</h2>
     <form id="query-form">
-        <input type="text" id="question" name="question" placeholder="Enter your question..." required>
-        <button type="submit">Search</button>
+        <div class="avatar">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" id="question" name="question" placeholder="What would you like to know?" required>
+        </div>
+        <button type="submit" aria-label="Send message">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+            </svg>
+        </button>
     </form>
     <div id="loading-spinner" class="hidden">
         <div class="spinner"></div>
