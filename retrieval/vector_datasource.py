@@ -3,6 +3,8 @@ from typing import Optional, List
 from pydantic import BaseModel, Field
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorCollection
 import os
+from pymongo.operations import SearchIndexModel
+from pymongo.errors import OperationFailure
 
 client = AsyncIOMotorClient(os.getenv("MONGO_URI"))
 
@@ -18,7 +20,7 @@ class VectorDocument(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
     def to_mongo(self) -> dict:
-        return self.dict()
+        return self.model_dump()
 
     @classmethod
     def from_mongo(cls, data: dict) -> "VectorDocument":
@@ -43,7 +45,7 @@ async def insert_many(
         raise Exception(f"Failed to insert documents: {e}")
 
 
-async def get_all(collection: AsyncIOMotorCollection) -> List[VectorDocument]:
+async def get_all_vectors(collection: AsyncIOMotorCollection) -> List[VectorDocument]:
     try:
         cursor = collection.find()
         documents = []
@@ -123,43 +125,52 @@ async def init_vector_indexes(collection: AsyncIOMotorCollection) -> None:
             [("dataset", 1), ("stable_id_in_ds", 1)], unique=True
         )
 
-        # OpenAI vector index
-        openai_index = {
-            "name": "vec_openai_index",
-            "definition": {
-                "mappings": {
-                    "dynamic": True,
-                    "fields": {
-                        "vec_heb_text_openai_par": {
-                            "type": "knnVector",
-                            "dimensions": 1536,
-                        }
-                    },
-                }
-            },
-        }
-        await collection.database.command(
-            "createSearchIndex", collection.name, **openai_index
-        )
+        vector_indexes = await collection.list_indexes().to_list(length=None)
 
-        # Claude vector index
-        claude_index = {
-            "name": "vec_claude_index",
-            "definition": {
-                "mappings": {
-                    "dynamic": True,
-                    "fields": {
-                        "vec_heb_text_claude_par": {
-                            "type": "knnVector",
-                            "dimensions": 1536,
-                        }
-                    },
-                }
+        index_models_to_create = []
+        # OpenAI vector index
+        openai_index_model = SearchIndexModel(
+            definition={
+                "fields": [
+                    {
+                        "type": "vector",
+                        "path": "vec_heb_text_openai_par",
+                        "numDimensions": 1024,
+                        "similarity": "cosine",
+                    }
+                ],
             },
-        }
-        await collection.database.command(
-            "createSearchIndex", collection.name, **claude_index
+            name="vec_openai_index",
+            type="vectorSearch",
         )
+        if not (any(i["name"] == "vec_openai_index" for i in vector_indexes)):
+            index_models_to_create.append(openai_index_model)
+
+        claude_index_model = SearchIndexModel(
+            definition={
+                "fields": [
+                    {
+                        "type": "vector",
+                        "path": "vec_heb_text_claude_par",
+                        "numDimensions": 1024,
+                        "similarity": "cosine",
+                    }
+                ],
+            },
+            name="vec_claude_index",
+            type="vectorSearch",
+        )
+        if not (any(i["name"] == "vec_claude_index" for i in vector_indexes)):
+            index_models_to_create.append(claude_index_model)
+
+        try:
+            await collection.create_search_indexes(
+                models=index_models_to_create,
+            )
+        except OperationFailure as opfail:
+            if "Duplicate Index" in str(opfail):
+                print("NOTE: not creating vector indexes, these seems to already exist")
+                pass
 
     except Exception as e:
         raise Exception(f"Failed to create vector indexes: {e}")
