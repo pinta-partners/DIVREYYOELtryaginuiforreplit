@@ -6,7 +6,7 @@ import sys
 import instructor
 import litellm
 from retrieval.initial_relevance import RelevanceChecker
-from retrieval.datasource import DataSource
+from retrieval.csv_datasource import DataSource
 
 # Load env vars from .env
 from dotenv import load_dotenv

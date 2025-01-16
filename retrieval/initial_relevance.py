@@ -1,6 +1,6 @@
 import asyncio
 from pydantic import BaseModel
-from retrieval.datasource import Passage
+from retrieval.csv_datasource import Passage
 
 
 class RelevanceResultWithId(BaseModel):
