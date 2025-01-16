@@ -88,6 +88,7 @@
                 data.analysis.analyzed_passages.forEach((passage, index) => {
                     if (index === 0) {
                         aiBubble.innerHTML = `
+                            ${passage.title ? `<div class="bg-white border border-gray-200 rounded-2xl p-4 mb-3 noto-600">${passage.title}</div>` : ''}
                             <div class="flex gap-3">
                                 <p class="source">${passage.source}</p>
                                 <p class="hebrew"><strong>סיכום:</strong> ${passage.explanation}</p>
@@ -101,6 +102,7 @@
                         additionalCard.style.marginBottom = "8px";
                         additionalCard.innerHTML = `
                             <div class="ai-bubble">
+                                ${passage.title ? `<div class="bg-white border border-gray-200 rounded-2xl p-4 mb-3 noto-600">${passage.title}</div>` : ''}
                                 <div class="flex gap-3">
                                     <p class="source">${passage.source}</p>
                                     <p class="hebrew"><strong>סיכום:</strong> ${passage.explanation}</p>
