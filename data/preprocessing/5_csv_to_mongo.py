@@ -21,7 +21,7 @@ TARGET_COLLECTION = "texts_from_csv"
 def convert_passage_to_db_doc(passage: Passage) -> TextFromCSV:
     compound_id = f"{passage.book_name}_{passage.section}_{passage.topic}_{passage.torah_number}_{passage.passage_number}"
     keywords = (
-        [k.strip() for k in passage.keywords.split(",")] if passage.keywords else []
+        [k.strip() for k in passage.keywords.split("\n")] if passage.keywords else []
     )
 
     return TextFromCSV(
@@ -88,7 +88,9 @@ async def process_csv_to_mongo(csv_path: str, batch_size: int = 100):
 
 def main():
     parser = argparse.ArgumentParser(description="Upload CSV data to MongoDB")
-    parser.add_argument("csv_path", help="Path to the input CSV file")
+    parser.add_argument(
+        "--csv_path", help="Path to the input CSV file", default="data/dataset.csv"
+    )
     args = parser.parse_args()
 
     asyncio.run(process_csv_to_mongo(args.csv_path))
