@@ -86,10 +86,12 @@
                 data.analysis.analyzed_passages.forEach((passage, index) => {
                     if (index === 0) {
                         aiBubble.innerHTML = `
-                            <p class="source">${passage.source}</p>
-                            <p class="hebrew"><strong>סיכום:</strong> ${passage.explanation}</p>
-                            <span class="expand-btn" onclick="toggleExpand('passage-${index}')">View Full Passage</span>
-                            <div id="passage-${index}" class="hidden full-text">${passage.passage}</div>
+                            <div class="flex gap-3">
+                                <p class="source">${passage.source}</p>
+                                <p class="hebrew"><strong>סיכום:</strong> ${passage.explanation}</p>
+                                <span class="expand-btn" onclick="toggleExpand('passage-${index}')">View Full Passage</span>
+                                <div id="passage-${index}" class="hidden full-text">${passage.passage}</div>
+                            </div>
                         `;
                     } else {
                         const additionalCard = document.createElement("div");
@@ -97,10 +99,12 @@
                         additionalCard.style.marginBottom = "8px";
                         additionalCard.innerHTML = `
                             <div class="ai-bubble">
-                                <p class="source">${passage.source}</p>
-                                <p class="hebrew"><strong>סיכום:</strong> ${passage.explanation}</p>
-                                <span class="expand-btn" onclick="toggleExpand('passage-${index}')">View Full Passage</span>
-                                <div id="passage-${index}" class="hidden full-text">${passage.passage}</div>
+                                <div class="flex gap-3">
+                                    <p class="source">${passage.source}</p>
+                                    <p class="hebrew"><strong>סיכום:</strong> ${passage.explanation}</p>
+                                    <span class="expand-btn" onclick="toggleExpand('passage-${index}')">View Full Passage</span>
+                                    <div id="passage-${index}" class="hidden full-text">${passage.passage}</div>
+                                </div>
                             </div>
                         `;
                         resultContainer.appendChild(additionalCard);
