@@ -70,12 +70,27 @@
             `;
             resultContainer.appendChild(aiCard);
 
-            const response = await fetch("/process", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `question=${encodeURIComponent(question)}`,
-            });
-            const data = await response.json();
+            let data;
+            if (question === "testtest") {
+                data = {
+                    analysis: {
+                        analyzed_passages: [{
+                            title: "תינוקות של בית רבן הוא המגן האמיתי על עם ישראל",
+                            source: "Divrey Yoel, Torah, Shemot, Torah #3, Passage #31",
+                            explanationTitle: "בשורה רעה נתבשרו ישראל באותה שעה, ש",
+                            explanation: "ביאור העניין הוא שכח התורה והתפילה של תינוקות של בית רבן הוא המגן האמיתי על עם ישראל מפני אויביהם",
+                            passage: "ונקדים דברי המכילתא (פ' בא) והי' כי יאמרו אליכם בניכם מה העבודה הזאת לכם וגו', בשורה רעה נתבשרו ישראל באותה שעה, שסוף עתידה תורה להשתכח ע\"כ, ולכאורה צ\"ב הרי מצות הלילה כן הוא שישאלו הבנים"
+                        }]
+                    }
+                };
+            } else {
+                const response = await fetch("/process", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: `question=${encodeURIComponent(question)}`,
+                });
+                data = await response.json();
+            }
 
             const aiBubble = document.getElementById("aiBubble");
             const typingIndicator = document.getElementById("typingIndicator");
