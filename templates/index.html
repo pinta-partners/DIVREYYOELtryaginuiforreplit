@@ -21,28 +21,16 @@
             DG
           </div>
           <div class="bg-gray-100 border border-gray-200 rounded-2xl p-3 f-narkis flex-1 text-lg">
-            <md-block rendered="property"><p>This is my Question</p></md-block>
+            <form id="query-form" class="w-full">
+              <textarea id="question" name="question" class="w-full bg-transparent border-none outline-none resize-none f-narkis text-lg" placeholder="Type your question..." required rows="1"></textarea>
+              <div class="flex justify-end">
+                <button type="submit" class="rounded-md whitespace-nowrap inline-flex flex-row gap-1 items-center justify-center h-9 text-sm px-4 bg-blue-500 text-white">
+                  Send
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-
-        <form id="query-form" class="chat-form">
-            <div class="avatar">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user">
-                    <circle cx="12" cy="12" r="10" />
-                    <circle cx="12" cy="10" r="3" />
-                    <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
-                </svg>
-            </div>
-            <div class="chat-input-container">
-                <textarea id="question" name="question" placeholder="Type your question..." required rows="1"></textarea>
-                <button type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                    </svg>
-                </button>
-            </div>
-        </form>
 
         <div id="result-container" class="result-container"></div>
       </div>
