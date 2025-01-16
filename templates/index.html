@@ -16,17 +16,17 @@
         </div>
       </header>
       <div class="max-w-2xl mx-auto flex flex-col gap-4 mb-4 px-3 sm:px-0">
-        <div class="flex gap-3">
-          <div class="flex justify-center items-center rounded-full h-[42px] w-[42px] align-content bg-blue-500">
-            DG
-          </div>
-          <div class="bg-gray-100 border border-gray-200 rounded-2xl p-3 f-narkis flex-1 text-lg">
-            <md-block rendered="property"><p>what can we learn from josephs dreams?</p></md-block>
-          </div>
-        </div>
+        <h1>Chasiddus AI</h1>
+        <h2>Search for any Dvar Torah in Chasidishe Seforim using AI. This version has access to the entire Divrey Yoel.</h2>
 
         <form id="query-form" class="chat-form">
-           
+            <div class="avatar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user">
+                    <circle cx="12" cy="12" r="10" />
+                    <circle cx="12" cy="10" r="3" />
+                    <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
+                </svg>
+            </div>
             <div class="chat-input-container">
                 <textarea id="question" name="question" placeholder="Type your question..." required rows="1"></textarea>
                 <button type="submit">
@@ -37,22 +37,6 @@
                 </button>
             </div>
         </form>
-
-        <div class="flex gap-3">
-          <div
-            class="flex justify-center items-center rounded-full h-[42px] w-[42px] align-content bg-blue-500"
-          >
-            DG
-          </div>
-          <div
-            class="bg-gray-100 border border-gray-200 rounded-2xl p-3 f-narkis flex-1 text-lg"
-          >
-            <md-block rendered="property"
-              ><p>what can we learn from josephs dreams?</p>
-            </md-block>
-         
-          </div>
-        </div>
 
         <div id="result-container" class="result-container"></div>
       </div>
