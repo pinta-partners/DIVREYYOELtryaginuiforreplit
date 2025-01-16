@@ -1,13 +1,10 @@
 from datetime import datetime
 from typing import Optional, List
 from pydantic import BaseModel, Field
-from pymongo import MongoClient
-from pymongo.collection import Collection
-from pymongo.errors import PyMongoError
-from contextlib import contextmanager
+from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorCollection
 import os
 
-client = MongoClient(os.getenv("MONGO_URI"))
+client = AsyncIOMotorClient(os.getenv("MONGO_URI"))
 
 
 class VectorDocument(BaseModel):
@@ -28,58 +25,55 @@ class VectorDocument(BaseModel):
         return cls(**data)
 
 
-@contextmanager
-def safe_cursor(cursor):
+async def insert_one(collection: AsyncIOMotorCollection, doc: VectorDocument) -> bool:
     try:
-        yield cursor
-    finally:
-        cursor.close()
-
-
-def insert_one(collection: Collection, doc: VectorDocument) -> bool:
-    try:
-        collection.insert_one(doc.to_mongo())
+        await collection.insert_one(doc.to_mongo())
         return True
-    except PyMongoError as e:
+    except Exception as e:
         raise Exception(f"Failed to insert document: {e}")
 
 
-def insert_many(collection: Collection, docs: List[VectorDocument]) -> bool:
+async def insert_many(
+    collection: AsyncIOMotorCollection, docs: List[VectorDocument]
+) -> bool:
     try:
-        collection.insert_many([d.to_mongo() for d in docs])
+        await collection.insert_many([d.to_mongo() for d in docs])
         return True
-    except PyMongoError as e:
+    except Exception as e:
         raise Exception(f"Failed to insert documents: {e}")
 
 
-def get_all(collection: Collection) -> List[VectorDocument]:
+async def get_all(collection: AsyncIOMotorCollection) -> List[VectorDocument]:
     try:
-        with safe_cursor(collection.find()) as cursor:
-            return [VectorDocument.from_mongo(doc) for doc in cursor]
-    except PyMongoError as e:
+        cursor = collection.find()
+        documents = []
+        async for doc in cursor:
+            documents.append(VectorDocument.from_mongo(doc))
+        return documents
+    except Exception as e:
         raise Exception(f"Failed to retrieve documents: {e}")
 
 
-def find_by_dataset_and_id(
-    collection: Collection, dataset: str, stable_id_in_ds: str
+async def find_by_dataset_and_id(
+    collection: AsyncIOMotorCollection, dataset: str, stable_id_in_ds: str
 ) -> Optional[VectorDocument]:
     try:
-        doc = collection.find_one(
+        doc = await collection.find_one(
             {"dataset": dataset, "stable_id_in_ds": stable_id_in_ds}
         )
         return VectorDocument.from_mongo(doc) if doc else None
-    except PyMongoError as e:
+    except Exception as e:
         raise Exception(f"Failed to find document: {e}")
 
 
-def find_by_knn_heb_text_openai_par(
-    collection: Collection, query_vector: list, k: int = 5
+async def find_by_knn_heb_text_openai_par(
+    collection: AsyncIOMotorCollection, query_vector: list, k: int = 5
 ) -> List[VectorDocument]:
     try:
         pipeline = [
             {
                 "$search": {
-                    "index": "vec_openai_index",  # Add index name for consistency
+                    "index": "vec_openai_index",
                     "knnBeta": {
                         "vector": query_vector,
                         "path": "vec_heb_text_openai_par",
@@ -88,14 +82,17 @@ def find_by_knn_heb_text_openai_par(
                 }
             }
         ]
-        with safe_cursor(collection.aggregate(pipeline)) as cursor:
-            return [VectorDocument.from_mongo(doc) for doc in cursor]
-    except PyMongoError as e:
+        cursor = collection.aggregate(pipeline)
+        documents = []
+        async for doc in cursor:
+            documents.append(VectorDocument.from_mongo(doc))
+        return documents
+    except Exception as e:
         raise Exception(f"Failed to perform KNN search: {e}")
 
 
-def find_by_knn_heb_text_claude_par(
-    collection: Collection, query_vector: list, k: int = 5
+async def find_by_knn_heb_text_claude_par(
+    collection: AsyncIOMotorCollection, query_vector: list, k: int = 5
 ) -> List[VectorDocument]:
     try:
         pipeline = [
@@ -110,16 +107,21 @@ def find_by_knn_heb_text_claude_par(
                 }
             }
         ]
-        with safe_cursor(collection.aggregate(pipeline)) as cursor:
-            return [VectorDocument.from_mongo(doc) for doc in cursor]
-    except PyMongoError as e:
+        cursor = collection.aggregate(pipeline)
+        documents = []
+        async for doc in cursor:
+            documents.append(VectorDocument.from_mongo(doc))
+        return documents
+    except Exception as e:
         raise Exception(f"Failed to perform KNN search: {e}")
 
 
-def init_vector_indexes(collection: Collection) -> None:
+async def init_vector_indexes(collection: AsyncIOMotorCollection) -> None:
     """Initialize vector search indexes"""
     try:
-        collection.create_index([("dataset", 1), ("stable_id_in_ds", 1)], unique=True)
+        await collection.create_index(
+            [("dataset", 1), ("stable_id_in_ds", 1)], unique=True
+        )
 
         # OpenAI vector index
         openai_index = {
@@ -136,7 +138,7 @@ def init_vector_indexes(collection: Collection) -> None:
                 }
             },
         }
-        collection.database.command(
+        await collection.database.command(
             "createSearchIndex", collection.name, **openai_index
         )
 
@@ -155,9 +157,9 @@ def init_vector_indexes(collection: Collection) -> None:
                 }
             },
         }
-        collection.database.command(
+        await collection.database.command(
             "createSearchIndex", collection.name, **claude_index
         )
 
-    except PyMongoError as e:
+    except Exception as e:
         raise Exception(f"Failed to create vector indexes: {e}")

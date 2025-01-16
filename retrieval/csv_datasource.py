@@ -20,7 +20,7 @@ class Passage(BaseModel):
 class DataSource:
     def __init__(self, file_path):
         self.file_path = file_path
-        self.passages = []
+        self.passages: list[Passage] = []
 
     def read_csv(self):
         with open(self.file_path, mode="r", encoding="utf-8") as file:
