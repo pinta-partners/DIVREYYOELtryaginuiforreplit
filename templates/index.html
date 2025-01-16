@@ -154,7 +154,7 @@
             const element = document.getElementById(id);
             element.classList.toggle("hidden");
             const expandBtn = element.previousElementSibling;
-            expandBtn.style.display = "none";
+            expandBtn.textContent = element.classList.contains("hidden") ? "דבריו במלואם" : "סגור";
         }
     </script>
 </body>
