@@ -3,7 +3,7 @@ import sys
 
 """
 Usage:
-    python data/preprocessing/4_csv_to_text.py data/dataset.csv guider/dataset.txt
+    python chassidic-ai/ingestion/preprocessing/4_csv_to_text.py data/dataset.csv guider/dataset.txt
 
 This script reads an enriched CSV (with columns:
     book_name,section,topic,torah #,passage #,hebrew_text,translation,summary,keywords
