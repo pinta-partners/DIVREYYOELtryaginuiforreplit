@@ -132,13 +132,33 @@
                         additionalCard.className = "ai-card";
                         additionalCard.style.marginBottom = "8px";
                         additionalCard.innerHTML = `
-                            <div class="ai-bubble">
-                                ${passage.title ? `<div class="bg-white border border-gray-200 rounded-2xl p-4 mb-3 noto-600">${passage.title}</div>` : ''}
-                                <div class="flex gap-3">
-                                    <p class="source">${passage.source}</p>
-                                    <p class="hebrew"><strong>סיכום:</strong> ${passage.explanation}</p>
-                                    <span class="expand-btn" onclick="toggleExpand('passage-${index}')">View Full Passage</span>
-                                    <div id="passage-${index}" class="hidden full-text">${passage.passage}</div>
+                            <div class="flex gap-3">
+                                <div class="flex justify-center items-center rounded-full h-[42px] w-[42px] align-content bg-blue-500">
+                                    <span class="text-white">AI</span>
+                                </div>
+                                <div class="ai-bubble flex-1">
+                                    ${passage.title ? `<div class="bg-white border border-gray-200 rounded-2xl p-4 mb-3 noto-600">${passage.title}</div>` : ''}
+                                    <div>
+                                        <div class="bg-white border border-gray-200 rounded-2xl p-4 mb-3 text-lg f-narkis">
+                                            <div class="flex justify-between">
+                                                <div class="inline-block text-sm bg-yellow-100 rounded-sm px-3 py-1 mb-4 noto-500">
+                                                    ${passage.source}
+                                                </div>
+                                            </div>
+                                            ${passage.explanationTitle ? `<div class="font-bold">${passage.explanationTitle}</div>` : ''}
+                                            <span>
+                                                <div class="mb-4">${passage.explanation}</div>
+                                                <div class="text-xs text-blue-500 noto-500 flex items-center mb-3 cursor-pointer" onclick="toggleExpand('passage-${index}')">
+                                                    <div>דבריו במלואם</div>
+                                                </div>
+                                                <div id="passage-${index}" class="hidden">
+                                                    <hr class="border-t-0 border-b border-b-2 my-4 border-gray-500"/>
+                                                    <div class="text-xs noto-500 mb-1">סיכום דבריו:</div>
+                                                    <div>${passage.passage}</div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         `;
