@@ -3,9 +3,7 @@
 Use Python3.11 or higher, with pip and venv installed.
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+poetry install --all-extras
 ```
 
 When running locally, add a `.env` file with the following keys (fill in the values):
@@ -20,6 +18,11 @@ ANTHROPIC_API_KEY=
 OPENAI_API_KEY=
 ```
 
+## To get a shell with dependencies available
+
+```bash
+poetry shell
+```
 
 # Data import pipeline
 
@@ -40,6 +43,17 @@ python data/preprocessing/csv_to_text.py data/dataset.csv guider/dataset.txt
 
 
 # Runtime
+
+To run the server in dev mode:
+```bash
+hypercorn chassidic-ai.serving.server:app --reload
+```
+
+To run the server in prod mode:
+```bash
+hypercorn chassidic-ai.serving.server:app
+```
+
 
 For the new pipeline, run `run_retrieval.py`.
 Results are stored under `run/`

@@ -1,11 +1,37 @@
-[project]
+[tool.poetry]
 name = "chassidic_ai"
 version = "0.1.0"
 description = ""
-authors = [{name ="Roman Baron", email="roman.baron@gmail.com>"}]
-requires-python = ">=3.11"
-dependencies = [
-    "openai>=1.58.1",
-    "pandas>=2.2.3",
-    "rich>=13.9.4",
-]
+authors = [
+    "Roman Baron <roman.baron@gmail.com>",
+    "Erick",
+    "Avi",
+    "Chezki"
+    ]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.11,<4.0"
+openai = ">=1.59.7"
+pandas = ">=2.0.0"
+rich = ">=13.0.0"
+numpy = ">=1.24.0"
+python-dotenv = ">=1.0.0"
+flask-cors = "*"
+flask = "*"
+anthropic = ">=0.43.0"
+litellm = ">=1.58.2"
+instructor = ">=1.7.2"
+beautifulsoup4 = ">=4.12.3"
+html5lib = ">=1.1.0"
+python-docx = ">=1.1.2"
+motor = {version = ">=3.6.1", extras = ["gssapi", "ocsp", "snappy", "srv", "zstd", "encryption"]}
+fastapi = ">=0.115.6"
+hypercorn = ">=0.17.3"
+docx =  ">=0.2.4"
+
+
+[tool.poetry.group.dev.dependencies]
+poetry-plugin-shell = ">=0.1.0"
+pytest = ">=8.3.4"
+

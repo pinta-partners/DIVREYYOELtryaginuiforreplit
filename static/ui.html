@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="""""he" dir="""""rtl"></html>
+
+</html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Chassidic AI</title>
+  <style>
+    .select-rtl {
+      background-position: 0.5rem 50%;
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+      padding-left: 2.5rem;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 pt-20 rtl">
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-10 bg-blue-600 text-white px-8 py-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold text-right">שאלות ותשובות</h1>
+    <div class="text-sm text-right">Account</div>
+  </header>
+
+  <!-- Question Input Area -->
+  <div class="flex justify-center mb-6 rtl">
+    <div class="w-1/3">
+      <label for="question" class="block text-gray-700 font-medium mb-2 text-right">
+        שאלה בעברית או באנגלית
+      </label>
+
+      <textarea id="question" rows="2" class="w-full p-3 border-2 border-blue-800 rounded-xl text-right
+               hover:border-blue-300 focus:border-blue-500 focus:border-4 focus:outline-none 
+               transition-colors duration-200" placeholder="הקלד את השאלה שלך..."></textarea>
+
+      <!-- Button row -->
+      <div class="flex items-center mt-4 gap-4">
+        <button id="submitQuestion" disabled class="px-6 py-2 bg-blue-500 text-white rounded-md
+                 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500
+                 disabled:opacity-50 disabled:cursor-not-allowed">
+          שלח
+        </button>
+        <button id="advancedToggle" class="text-blue-600 hover:text-blue-800 text-right">מתקדם</button>
+      </div>
+
+      <!-- Advanced Panel -->
+      <div id="advancedPanel" class="grid grid-rows-[0fr] transition-all duration-100 ease-in-out opacity-0 transform scale-95">
+        <div class="overflow-hidden">
+          <div class="mt-4 border rounded-md p-4 text-right">
+            <!-- Sources Section -->
+            <div class="mb-4">
+              <div class="font-medium mb-2 text-right">מקורות מידע</div>
+              <hr>
+              <div class="space-y-2">
+                <label class="flex items-center justify-end">
+                  <span class="px-2">דברי יואל</span>
+                  <input type="checkbox" id="source_divrei_yoel" class="mr-2">
+                </label>
+                <label class="flex items-center justify-end">
+                  <span class="px-2">ספריה</span>
+                  <input type="checkbox" id="source_library" class="mr-2">
+                </label>
+                <label class="flex items-center justify-end">
+                  <span class="px-2">ספרים אחרים</span>
+                  <input type="checkbox" id="source_other" class="mr-2">
+                </label>
+              </div>
+            </div>
+
+            <!-- Algorithm Section -->
+            <div>
+              <div class="font-medium mb-2 text-right">אלגוריתם</div>
+              <hr>
+              <div class="space-y-3">
+                <div>
+                  <label class="block mb-1 text-right">שכתוב שאילתה</label>
+                  <select id="query_rewrite" class="w-full p-2 border rounded text-right appearance-none select-rtl" dir="rtl">
+                    <option value="none">ללא</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block mb-1 text-right">שלב החיפוש</label>
+                  <select id="search_stage" class="w-full p-2 border rounded text-right appearance-none select-rtl" dir="rtl">
+                    <option value="openai_par">וקטורי openai</option>
+                    <option value="none">ללא חיפוש וקטורי</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="spinner" class="hidden mt-2 text-blue-500 text-right">טוען...</div>
+    </div>
+  </div>
+
+  <!-- Details Toggle -->
+  <div class="mb-6 text-right">
+    <div class="flex justify-center">
+      <button id="detailsToggle" class="hidden text-blue-500 text-sm font-semibold px-2 py-1">פרטי שאילתא</button>
+    </div>
+  </div>
+
+  <div id="runDetails" class="hidden bg-gray-50 p-4 rounded-md border mt-2">
+    <pre id="detailsContent" class="text-sm text-gray-700 text-left" dir="ltr"></pre>
+  </div>
+
+  <!-- Cards -->
+  <div id="cards" class="space-y-6 text-right rtl"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Get all DOM elements after DOM is loaded
+      const questionInput = document.getElementById('question');
+      const submitButton = document.getElementById('submitQuestion');
+      const spinner = document.getElementById('spinner');
+      const cardsContainer = document.getElementById('cards');
+      const detailsToggle = document.getElementById('detailsToggle');
+      const runDetails = document.getElementById('runDetails');
+      const detailsContent = document.getElementById('detailsContent');
+
+      // Validate DOM elements
+      if (!detailsContent) {
+        console.error('Required element #detailsContent not found');
+      }
+
+      async function loadCards() {
+        try {
+          // Show spinner
+          spinner.classList.remove('hidden');
+
+          const response = await fetch('/question', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ query: questionInput.value }),
+          });
+
+          const data = await response.json();
+
+          // Hide spinner
+          spinner.classList.add('hidden');
+
+          // Populate general details
+          if (detailsContent) {
+            detailsContent.textContent = JSON.stringify(
+              {
+                question: data.question,
+                run_parameters: data.run_parameters,
+                rewrite_result: data.rewrite_result,
+                hybrid_params: data.hybrid_params,
+                timestamp: data.timestamp,
+              },
+              null,
+              2
+            );
+          }
+
+          // Show details toggle after results are received
+          document.getElementById('detailsToggle').classList.remove('hidden');
+
+          // Toggle visibility of details
+          detailsToggle.onclick = () => {
+            runDetails.classList.toggle('hidden');
+          };
+
+          // Populate cards
+          cardsContainer.innerHTML = '';
+
+          data.passages.forEach((passage, index) => {
+            const card = document.createElement('div');
+            card.className = 'bg-white shadow-md rounded-lg overflow-hidden';
+
+            // Format location string from passage data
+            const location = `${passage.book_name}, ${passage.section}, ${passage.topic} (Torah #${passage.torah_num}, Passage #${passage.passage_num})`;
+
+            card.innerHTML = `
+              <div class="bg-yellow-100 p-3 font-semibold text-gray-800">מיקום: ${location}</div>
+              <div class="p-4">
+                <p class="text-gray-800">${passage.hebrew_text}</p>
+              </div>
+              <div class="p-4 border-t">
+                <details>
+                  <summary class="cursor-pointer text-blue-500">תרגום לאנגלית</summary>
+                  <p class="mt-2 text-gray-800">${passage.en_translation}</p>
+                </details>
+              </div>
+              <div class="p-4 border-t">
+                <details>
+                  <summary class="cursor-pointer text-blue-500">סיכום</summary>
+                  <div class="mt-2">
+                    <p class="text-gray-800 mb-2">Hebrew: ${passage.he_summary}</p>
+                    <p class="text-gray-800">English: ${passage.en_summary}</p>
+                  </div>
+                </details>
+              </div>
+              <div class="p-4 border-t">
+                <details>
+                  <summary class="cursor-pointer text-blue-500">מילות מפתח</summary>
+                  <div class="mt-2 flex flex-wrap gap-2">
+                    ${passage.keywords.map(keyword =>
+              `<span class="bg-gray-100 px-2 py-1 rounded-md text-sm">${keyword}</span>`
+            ).join('')}
+                  </div>
+                </details>
+              </div>
+              <div class="p-4 border-t">
+                <details>
+                  <summary class="cursor-pointer text-blue-500">ציוני רלוונטיות</summary>
+                  <div class="mt-2 space-y-4">
+                    ${passage.relevance_judgments.map(judgment => `
+                      <div class="bg-gray-50 p-3 rounded-md">
+                        <p class="font-medium">Score: ${judgment.score}</p>
+                        <p class="text-sm text-gray-600">Model: ${judgment.model}</p>
+                        <p class="mt-1">${judgment.reason}</p>
+                        <p class="text-xs text-gray-500 mt-1">${judgment.timestamp}</p>
+                      </div>
+                    `).join('')}
+                  </div>
+                </details>
+              </div>
+              <div class="p-4 border-t bg-gray-50">
+                <p class="text-xs text-gray-500">Dataset: ${passage.dataset}</p>
+                <p class="text-xs text-gray-500">ID: ${passage.compound_id}</p>
+              </div>
+            `;
+
+            cardsContainer.appendChild(card);
+          });
+        } catch (error) {
+          console.error('Error in loadCards:', error);
+          spinner.classList.add('hidden');
+        }
+      }
+
+      questionInput.addEventListener('input', () => {
+        submitButton.disabled = questionInput.value.trim() === '';
+      });
+
+      submitButton.addEventListener('click', loadCards);
+    });
+
+    document.getElementById('advancedToggle').addEventListener('click', () => {
+      const panel = document.getElementById('advancedPanel');
+      if (panel.classList.contains('grid-rows-[0fr]')) {
+        panel.classList.remove('grid-rows-[0fr]', 'opacity-0', 'scale-95');
+        panel.classList.add('grid-rows-[1fr]', 'opacity-100', 'scale-100');
+      } else {
+        panel.classList.remove('grid-rows-[1fr]', 'opacity-100', 'scale-100');
+        panel.classList.add('grid-rows-[0fr]', 'opacity-0', 'scale-95');
+      }
+    });
+
+    function getAdvancedSettings() {
+      return {
+        sources: {
+          divrei_yoel: document.getElementById('source_divrei_yoel').checked,
+          library: document.getElementById('source_library').checked,
+          other: document.getElementById('source_other').checked
+        },
+        algorithm: {
+          query_rewrite: document.getElementById('query_rewrite').value,
+          search_stage: document.getElementById('search_stage').value
+        }
+      };
+    }
+
+    document.getElementById('submitQuestion').addEventListener('click', async () => {
+      const questionText = document.getElementById('question').value;
+      
+      const requestData = {
+        question: questionText,
+        advanced: getAdvancedSettings()
+      };
+
+      // Make POST request
+      const response = await fetch('/api/ask', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData)
+      });
+      // ...rest of submit handler code...
+    });
+  </script>
+</body>
+
+</html>

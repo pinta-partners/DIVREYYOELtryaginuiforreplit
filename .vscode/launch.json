@@ -10,6 +10,27 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal"
+        },
+        {
+            "name": "FastAPI Hypercorn",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "module": "hypercorn",
+            "args": [
+                "chassidic_ai.serving.server:app",
+                "--reload",
+                "--bind",
+                "0.0.0.0:8000"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}",
+                "MONGO_URI": "${env:MONGO_URI}",
+                "OPENAI_API_KEY": "${env:OPENAI_API_KEY}",
+                "ANTHROPIC_API_KEY": "${env:ANTHROPIC_API_KEY}"
+            },
+            "justMyCode": false,
+            "console": "integratedTerminal"
         }
     ]
 }
