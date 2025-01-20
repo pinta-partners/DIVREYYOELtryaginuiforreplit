@@ -1,0 +1,86 @@
+[
+    {
+      "book_he": "בראשית",
+      "book_en": "Genesis",
+      "parasha": [
+        { "parasha_he": "בראשית", "parasha_en": "Bereishit" },
+        { "parasha_he": "נח", "parasha_en": "Noach" },
+        { "parasha_he": "לך לך", "parasha_en": "Lech Lecha" },
+        { "parasha_he": "וירא", "parasha_en": "Vayeira" },
+        { "parasha_he": "חיי שרה", "parasha_en": "Chayei Sarah" },
+        { "parasha_he": "תולדות", "parasha_en": "Toldot" },
+        { "parasha_he": "ויצא", "parasha_en": "Vayetzei" },
+        { "parasha_he": "וישלח", "parasha_en": "Vayishlach" },
+        { "parasha_he": "וישב", "parasha_en": "Vayeshev" },
+        { "parasha_he": "מקץ", "parasha_en": "Mikeitz" },
+        { "parasha_he": "ויגש", "parasha_en": "Vayigash" },
+        { "parasha_he": "ויחי", "parasha_en": "Vayechi" }
+      ]
+    },
+    {
+      "book_he": "שמות",
+      "book_en": "Exodus",
+      "parasha": [
+        { "parasha_he": "שמות", "parasha_en": "Shmot" },
+        { "parasha_he": "וארא", "parasha_en": "Va'eira" },
+        { "parasha_he": "בא", "parasha_en": "Bo" },
+        { "parasha_he": "בשלח", "parasha_en": "Beshalach" },
+        { "parasha_he": "יתרו", "parasha_en": "Yitro" },
+        { "parasha_he": "משפטים", "parasha_en": "Mishpatim" },
+        { "parasha_he": "תרומה", "parasha_en": "Trumah" },
+        { "parasha_he": "תצוה", "parasha_en": "Tetzaveh" },
+        { "parasha_he": "כי תשא", "parasha_en": "Ki Tisa" },
+        { "parasha_he": "ויקהל", "parasha_en": "Vayakhel" },
+        { "parasha_he": "פקודי", "parasha_en": "Pekudei" }
+      ]
+    },
+    {
+      "book_he": "ויקרא",
+      "book_en": "Leviticus",
+      "parasha": [
+        { "parasha_he": "ויקרא", "parasha_en": "Vayikra" },
+        { "parasha_he": "צו", "parasha_en": "Tzav" },
+        { "parasha_he": "שמיני", "parasha_en": "Shmini" },
+        { "parasha_he": "תזריע", "parasha_en": "Tazria" },
+        { "parasha_he": "מצורע", "parasha_en": "Metzora" },
+        { "parasha_he": "אחרי מות", "parasha_en": "Acharei Mot" },
+        { "parasha_he": "קדושים", "parasha_en": "Kedoshim" },
+        { "parasha_he": "אמור", "parasha_en": "Emor" },
+        { "parasha_he": "בהר", "parasha_en": "Behar" },
+        { "parasha_he": "בחוקותי", "parasha_en": "Bechukotai" }
+      ]
+    },
+    {
+      "book_he": "במדבר",
+      "book_en": "Numbers",
+      "parasha": [
+        { "parasha_he": "במדבר", "parasha_en": "Bamidbar" },
+        { "parasha_he": "נשא", "parasha_en": "Naso" },
+        { "parasha_he": "בהעלותך", "parasha_en": "Be'halot'cha" },
+        { "parasha_he": "שלח", "parasha_en": "Shlach" },
+        { "parasha_he": "קרח", "parasha_en": "Korach" },
+        { "parasha_he": "חקת", "parasha_en": "Chukat" },
+        { "parasha_he": "בלק", "parasha_en": "Balak" },
+        { "parasha_he": "פינחס", "parasha_en": "Pinchas" },
+        { "parasha_he": "מטות", "parasha_en": "Matot" },
+        { "parasha_he": "מסעי", "parasha_en": "Masay" }
+      ]
+    },
+    {
+      "book_he": "דברים",
+      "book_en": "Deuteronomy",
+      "parasha": [
+        { "parasha_he": "דברים", "parasha_en": "Devarim" },
+        { "parasha_he": "ואתחנן", "parasha_en": "V'etchanan" },
+        { "parasha_he": "עקב", "parasha_en": "Ekev" },
+        { "parasha_he": "ראה", "parasha_en": "Re'eh" },
+        { "parasha_he": "שופטים", "parasha_en": "Shoftim" },
+        { "parasha_he": "כי תצא", "parasha_en": "Ki Tetzei" },
+        { "parasha_he": "כי תבוא", "parasha_en": "Ki Tavo" },
+        { "parasha_he": "נצבים", "parasha_en": "Nitzavim" },
+        { "parasha_he": "וילך", "parasha_en": "Vayelech" },
+        { "parasha_he": "האזינו", "parasha_en": "Ha'azinu" },
+        { "parasha_he": "וזאת הברכה", "parasha_en": "V'Zot HaBracha" }
+      ]
+    }
+  ]
