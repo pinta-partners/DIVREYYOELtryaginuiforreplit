@@ -88,7 +88,7 @@ class EmbeddingsDatasource:
             raise Exception(f"Failed to find document: {e}")
 
     async def find_by_knn_heb_text_openai_par(
-        self, query_vector: list, k: int = 5
+        self, query_vector: list, k: int = 50
     ) -> List[VectorSearchResult]:
         try:
 
@@ -131,7 +131,7 @@ class EmbeddingsDatasource:
             raise Exception(f"Failed to perform KNN search: {e}")
 
     async def find_by_knn_heb_text_claude_par(
-        self, query_vector: list, k: int = 5
+        self, query_vector: list, k: int = 50
     ) -> List[VectorSearchResult]:
         try:
             pipeline = [
