@@ -4,10 +4,6 @@ import os
 from datetime import datetime
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import UpdateOne
-
-# Usage
-# python chassidic-ai/ingestion/preprocessing/5_csv_to_mongo.py --csv_path data/dataset.csv
-
 from ...retrieval.datasources.csv_datasource import DataSource, Passage
 from ...retrieval.datasources.other_texts_datasource import (
     TextFromCSV,
@@ -16,6 +12,10 @@ from ...retrieval.datasources.other_texts_datasource import (
 
 TARGET_DB = "other_books"
 TARGET_COLLECTION = "texts_from_csv"
+
+
+# Usage
+# PYTHONPATH=$(pwd) python -m chassidic-ai.ingestion.preprocessing.5_csv_to_mongo --csv_path data/dataset.csv
 
 
 def convert_passage_to_db_doc(passage: Passage) -> TextFromCSV:

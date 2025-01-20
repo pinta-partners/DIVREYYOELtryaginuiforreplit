@@ -2,6 +2,9 @@
 Creates embeddings for documents in the texts_from_csv collection and stores them in the vector collection.
 """
 
+# Usage
+# PYTHONPATH=$(pwd) python -m chassidic-ai.ingestion.preprocessing.6_create_embeddings
+
 import asyncio
 import os
 from datetime import datetime
