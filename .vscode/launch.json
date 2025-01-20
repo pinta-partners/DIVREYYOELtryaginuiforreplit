@@ -18,7 +18,7 @@
             "cwd": "${workspaceFolder}",
             "module": "hypercorn",
             "args": [
-                "chassidic_ai.serving.server:app",
+                "chassidic-ai.serving.server:app",
                 "--reload",
                 "--bind",
                 "0.0.0.0:8000"
