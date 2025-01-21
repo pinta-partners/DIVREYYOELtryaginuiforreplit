@@ -5,7 +5,7 @@ from fastapi.responses import FileResponse
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from ..processing.processing import SearchHandler
-from ..retrieval.datasources.vector_datasource import EmbeddingsDatasource
+from ..retrieval.datasources.vector_datasource import HybridEmbeddingsColDatasource
 from ..retrieval.datasources.other_texts_datasource import OtherTextsDatasource
 from ..models.models import QueryRequest, QueryResponse
 
@@ -34,7 +34,9 @@ if not os.getenv("ANTHROPIC_API_KEY"):
 async def startup_event():
     mongo_connection_string = os.getenv("MONGO_URI", "mongodb://localhost:27017")
     mongo_client = AsyncIOMotorClient(host=mongo_connection_string)
-    app.state.embedding_datasource = await EmbeddingsDatasource.create(mongo_client)
+    app.state.embedding_datasource = await HybridEmbeddingsColDatasource.create(
+        mongo_client
+    )
     app.state.other_texts_datasource = await OtherTextsDatasource.create(mongo_client)
 
 

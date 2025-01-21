@@ -8,8 +8,8 @@ from ..retrieval.relevance.initial_relevance import (
 )
 from ..retrieval.datasources.other_texts_datasource import OtherTextsDatasource
 from ..retrieval.datasources.vector_datasource import (
-    EmbeddingsDatasource,
-    VectorSearchResult,
+    HybridEmbeddingsColDatasource,
+    HybridEmbeddingSearchResult,
 )
 
 from ..models.models import (
@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 class SearchHandler:
     def __init__(
         self,
-        embedding_datasource: EmbeddingsDatasource,
+        embedding_datasource: HybridEmbeddingsColDatasource,
         other_texts_datasource: OtherTextsDatasource,
     ):
         self.vector_datasource = embedding_datasource
@@ -43,8 +43,8 @@ class SearchHandler:
                 dimensions=1024,
             )
             query_vector = embedding_resp.data[0]["embedding"]
-            vector_results: list[VectorSearchResult] = (
-                await self.vector_datasource.find_by_knn_heb_text_openai_par(
+            vector_results: list[HybridEmbeddingSearchResult] = (
+                await self.vector_datasource.find_by_query_similarity(
                     query_vector=query_vector, k=top_k
                 )
             )
